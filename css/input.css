@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant hover (&:hover);
+
+@theme {
+  /* ... */
+  --color-background: #CCFBF1;
+  --color-secondary: #2dd4bf;
+  --color-nav: #2dd4bf;
+  --color-primary: #1d293d;
+  --color-box: #f0fdfa;
+  --color-card: #5eead4;
+  --color-card-title: #fff;
+  --color-card-text-hover: #ccfbf1;
+  --color-light-border: #d1d5db;
+  --color-link: #0ea5e9;
+}
+
+.dark {
+  --color-background:#1d293d;
+  --color-primary: #fff;
+}
+
+.section-box {
+  @apply bg-box px-3 border-1 rounded-md;
+}
+
+@layer theme, base, components, utilities;
+
+@layer base {
+    h3 {
+        @apply font-bold;
+    }
+}
