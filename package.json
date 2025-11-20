@@ -1,0 +1,24 @@
+{
+  "name": "assign1",
+  "version": "1.0.0",
+  "description": "> Final project of COMP 3512 Web Development II. <br>\r > Displays product data and purchase options.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx @tailwindcss/cli -i ./css/input.css -o ./css/styles.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndrewTries/COMP_3512-Assignment2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndrewTries/COMP_3512-Assignment2/issues"
+  },
+  "homepage": "https://github.com/AndrewTries/COMP_3512-Assignment2#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.14",
+    "tailwindcss": "^4.1.14"
+  }
+}
