@@ -27,6 +27,7 @@
     --color-slate-400: oklch(70.4% 0.04 256.788);
     --color-slate-500: oklch(55.4% 0.046 257.417);
     --color-slate-600: oklch(44.6% 0.043 257.281);
+    --color-slate-700: oklch(37.2% 0.044 257.287);
     --color-slate-900: oklch(20.8% 0.042 265.755);
     --color-gray-100: oklch(96.7% 0.003 264.542);
     --color-gray-400: oklch(70.7% 0.022 261.325);
@@ -308,6 +309,9 @@
   .mb-\[vh\] {
     margin-bottom: vh;
   }
+  .ml-10 {
+    margin-left: calc(var(--spacing) * 10);
+  }
   .block {
     display: block;
   }
@@ -428,14 +432,38 @@
   .grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
+  .grid-cols-\[3\] {
+    grid-template-columns: 3;
+  }
+  .grid-cols-\[5\%_20\%_60\%_10\%\] {
+    grid-template-columns: 5% 20% 60% 10%;
+  }
   .grid-cols-\[5\%_20\%_60\%_15\%\] {
     grid-template-columns: 5% 20% 60% 15%;
+  }
+  .grid-cols-\[5\%_20\%_65\%_10\%\] {
+    grid-template-columns: 5% 20% 65% 10%;
+  }
+  .grid-cols-\[5\%_20\%_70\%_\%\] {
+    grid-template-columns: 5% 20% 70% %;
+  }
+  .grid-cols-\[5\%_20\%_70\%_5\%\] {
+    grid-template-columns: 5% 20% 70% 5%;
+  }
+  .grid-cols-\[5\%_20\%_70\%_10\%\] {
+    grid-template-columns: 5% 20% 70% 10%;
+  }
+  .grid-cols-\[30\%_70\%\] {
+    grid-template-columns: 30% 70%;
   }
   .flex-col {
     flex-direction: column;
@@ -812,6 +840,9 @@
   .text-link {
     color: var(--color-link);
   }
+  .text-slate-700 {
+    color: var(--color-slate-700);
+  }
   .text-white {
     color: var(--color-white);
   }
@@ -967,9 +998,44 @@
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
+  .xl\:h-10 {
+    @media (width >= 80rem) {
+      height: calc(var(--spacing) * 10);
+    }
+  }
+  .xl\:h-20 {
+    @media (width >= 80rem) {
+      height: calc(var(--spacing) * 20);
+    }
+  }
+  .xl\:h-50 {
+    @media (width >= 80rem) {
+      height: calc(var(--spacing) * 50);
+    }
+  }
   .xl\:h-100 {
     @media (width >= 80rem) {
       height: calc(var(--spacing) * 100);
+    }
+  }
+  .xl\:w-12 {
+    @media (width >= 80rem) {
+      width: calc(var(--spacing) * 12);
+    }
+  }
+  .xl\:w-20 {
+    @media (width >= 80rem) {
+      width: calc(var(--spacing) * 20);
+    }
+  }
+  .xl\:w-50 {
+    @media (width >= 80rem) {
+      width: calc(var(--spacing) * 50);
+    }
+  }
+  .xl\:w-80 {
+    @media (width >= 80rem) {
+      width: calc(var(--spacing) * 80);
     }
   }
   .xl\:w-120 {

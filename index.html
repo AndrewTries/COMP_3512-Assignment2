@@ -13,17 +13,20 @@
     <div class="flex min-h-screen w-full flex-col bg-background">
         <header class="sticky top-0 z-1">
             <div
-                class="grid grid-cols-[5%_20%_60%_15%] items-center justify-between bg-nav px-6 py-2 text-card-title dark:bg-slate-900">
-                <a href="index.html"><img src="images/hollow_logo.png" class="rounded-full w-10 h-10"></a>
-                <h1 class="text-xl font-bold"><a href="index.html">Portfolio Project</a></h1>
+                class="grid grid-cols-[5%_20%_65%_10%] items-center justify-between bg-nav px-6 py-2 text-card-title dark:bg-slate-900">
+                <a href="index.html" id="homePage"><img src="images/hollow_logo.png" class="rounded-full w-10 h-10"></a>
+                <h1 class="text-xl font-bold" id="homePage"><a href="index.html">Portfolio Project</a></h1>
                 <nav class="flex gap-5 justify-end">
-                    <a href="index.js">Home</a>
-                    <a href="browse.js">Browse</a>
-                    <a href="about.js">About</a>
+                    <a id="homePage" href="#">Home</a>
+                    <a id="browsePage" href="#">Browse</a>
+                    <a id="aboutPage" href="#">About</a>
                 </nav>
-                <div class="cart-header flex items-center gap-2 text-md justify-end">
-                    <h2 class="">🛒 Cart</h2>
-                    <div class="cart-count px-1.5 text-sm font-semibold rounded-2xl bg-red-600" id="cartCount">0</div>
+                <div class="ml-10">
+                    <a id="cartPage" href="#" class="cart-header flex items-center gap-2 text-md justify-end">
+                        <h2 class="">🛒 Cart</h2>
+                        <div class="cart-count px-1.5 text-sm font-semibold rounded-2xl bg-red-600" id="cartCount">0
+                        </div>
+                    </a>
                 </div>
             </div>
         </header>
@@ -44,9 +47,9 @@
                                 <p class="text-6xl md:text-8xl text-white font-serif text-shadow-lg pb-2 m-5">Find Your
                                     Style</p>
                             </figcaption>
-                            <div class=" ">
+                            <div id="browsePage">
                                 <button
-                                    class=" text-md font-mono font-semibold shadow-lg border-gray-400 border-1 py-2 px-6 bg-white"
+                                    class="browsePage text-md font-mono font-semibold shadow-lg border-gray-400 border-1 py-2 px-6 bg-white"
                                     href="#">
                                     BROWSE PRODUCTS
                                 </button>
@@ -63,10 +66,12 @@
                     </div>
                     <div class="products-grid grid md:grid-cols-2 lg:grid-cols-3 grid-gap-5 m-5" id="productsGrid">
                         <template id="productCard">
-                            <div class="flex items-center justify-center flex-col">
+                            <div class="flex items-center justify-center flex-col text-slate-700">
                                 <div
                                     class="product-image md:h-80 md:w-70 xl:h-100 xl:w-120 overflow-hidden rounded-2xl mb-3">
-                                    <img class="w-full h-full object-cover" src="images/kids_backpack.jpg" />
+                                    <a id="productPage">
+                                        <img class="w-full h-full object-cover" src="images/kids_backpack.jpg" />
+                                    </a>
                                 </div>
                                 <div class="product-name font-semibold">Name</div>
                                 <div class="product-price font-mono">$Price</div>
@@ -77,25 +82,28 @@
                     </div>
                 </article>
             </div>
+
             <div>
-                <article id="browse"
-                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 bg-gray-100">
+                <article id="browse" class="grid grid-cols-[30%_70%] gap-6 p-6">
                     <section id="filter"></section>
                     <section id="results">
                         <h1>Search Results</h1>
-                        <template id="sampleCard">
-                            <div class="flex items-center justify-center flex-col">
+                        <div class="products-grid grid md:grid-cols-2 lg:grid-cols-3 grid-gap-5 m-5" id="productsGrid">
+                        <template id="productCard">
+                            <div class="flex items-center justify-center flex-col text-slate-700">
                                 <div
-                                    class="product-image md:h-80 md:w-70 xl:h-100 xl:w-120 overflow-hidden rounded-2xl">
-                                    <img class="w-full h-full object-cover" src="images/kids_backpack.jpg" />
+                                    class="product-image md:h-80 md:w-70 xl:h-100 xl:w-80 overflow-hidden rounded-2xl mb-3">
+                                    <a id="productPage">
+                                        <img class="w-full h-full object-cover" src="images/kids_backpack.jpg" />
+                                    </a>
                                 </div>
-                                <div class="product-name">Name</div>
-                                <div class="product-description">Description</div>
-                                <div class="product-price">$Price</div>
+                                <div class="product-name font-semibold">Name</div>
+                                <div class="product-price font-mono">$Price</div>
                                 <button class="add-to-cart-btn" data-id="3" data-name="Parasite" data-price="24.99">Add
                                     to Cart</button>
                             </div>
                         </template>
+                    </div>
                     </section>
                 </article>
             </div>
