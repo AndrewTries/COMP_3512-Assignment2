@@ -11,19 +11,19 @@
 
 <body>
     <div class="flex min-h-screen w-full flex-col bg-background">
-        <header>
+        <header class="sticky top-0 z-1">
             <div
-                class="grid grid-cols-[5%_20%_60%_15%] items-center justify-between bg-nav px-6 py-4 text-card-title dark:bg-slate-900">
-                <a href="index.html"><img src="hollow_logo.png" class="rounded-full w-10 h-10"></a>
+                class="grid grid-cols-[5%_20%_60%_15%] items-center justify-between bg-nav px-6 py-2 text-card-title dark:bg-slate-900">
+                <a href="index.html"><img src="images/hollow_logo.png" class="rounded-full w-10 h-10"></a>
                 <h1 class="text-xl font-bold"><a href="index.html">Portfolio Project</a></h1>
                 <nav class="flex gap-5 justify-end">
                     <a href="index.js">Home</a>
                     <a href="browse.js">Browse</a>
                     <a href="about.js">About</a>
                 </nav>
-                <div class="cart-header flex items-center gap-2 text-xl justify-end">
+                <div class="cart-header flex items-center gap-2 text-md justify-end">
                     <h2 class="">🛒 Cart</h2>
-                    <div class="cart-count px-1.5 font-bold rounded-xl bg-red-600" id="cartCount">0</div>
+                    <div class="cart-count px-1.5 text-sm font-semibold rounded-2xl bg-red-600" id="cartCount">0</div>
                 </div>
             </div>
         </header>
@@ -35,22 +35,63 @@
             <!-- View 5 About Us -->
             <div>
                 <article id="home">
-                    hello
+                    <figure class="relative w-full h-[60vh] overflow-hidden">
+                        <a href="#">
+                            <img class="rounded-base w-full h-full object-cover " src="images/hero_image1.jpg">
+                        </a>
+                        <div class="absolute inset-0 flex items-center justify-center flex-col">
+                            <figcaption class=" ">
+                                <p class="text-6xl md:text-8xl text-white font-serif text-shadow-lg pb-2 m-5">Find Your
+                                    Style</p>
+                            </figcaption>
+                            <div class=" ">
+                                <button
+                                    class=" text-md font-mono font-semibold shadow-lg border-gray-400 border-1 py-2 px-6 bg-white"
+                                    href="#">
+                                    BROWSE PRODUCTS
+                                </button>
+                            </div>
+                            <!-- <button
+                                class=" text-xl rounded-4xl font-semibold shadow-lg border-white border-2 py-4 px-6 bg-sky-100">
+                                Browse Products<p class="text-xs">Click here to view our full product selection.</p>
+                            </button> -->
+                        </div>
+                    </figure>
+                    <div class="text-center">
+                        <h2 class=" mt-15 mb-2 text-4xl font-semibold">Featured Products</h2>
+                        <p>Staff picks of our latest products.</p>
+                    </div>
+                    <div class="products-grid grid md:grid-cols-2 lg:grid-cols-3 grid-gap-5 m-5" id="productsGrid">
+                        <template id="productCard">
+                            <div class="flex items-center justify-center flex-col">
+                                <div
+                                    class="product-image md:h-80 md:w-70 xl:h-100 xl:w-120 overflow-hidden rounded-2xl mb-3">
+                                    <img class="w-full h-full object-cover" src="images/kids_backpack.jpg" />
+                                </div>
+                                <div class="product-name font-semibold">Name</div>
+                                <div class="product-price font-mono">$Price</div>
+                                <button class="add-to-cart-btn" data-id="3" data-name="Parasite" data-price="24.99">Add
+                                    to Cart</button>
+                            </div>
+                        </template>
+                    </div>
                 </article>
             </div>
             <div>
-                <article id="browse" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 bg-gray-100">
+                <article id="browse"
+                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 bg-gray-100">
                     <section id="filter"></section>
                     <section id="results">
                         <h1>Search Results</h1>
-                        <template class="product-card">
-                            <div class="products-grid" id="productsGrid">
-                                <div class="product-image"><img src="images/posters/movie3.jpg" /></div>
-                                <div class="product-name">Parasite (2019)</div>
-                                <div class="product-description">The unemployed Ki-taek family takes interest in the
-                                    wealthy
-                                    Parks until they get entangled in an unexpected incident.</div>
-                                <div class="product-price">$24.99</div>
+                        <template id="sampleCard">
+                            <div class="flex items-center justify-center flex-col">
+                                <div
+                                    class="product-image md:h-80 md:w-70 xl:h-100 xl:w-120 overflow-hidden rounded-2xl">
+                                    <img class="w-full h-full object-cover" src="images/kids_backpack.jpg" />
+                                </div>
+                                <div class="product-name">Name</div>
+                                <div class="product-description">Description</div>
+                                <div class="product-price">$Price</div>
                                 <button class="add-to-cart-btn" data-id="3" data-name="Parasite" data-price="24.99">Add
                                     to Cart</button>
                             </div>
@@ -74,11 +115,11 @@
         </main>
         <footer>
             <div class="flex items-center justify-center">
-                <div class="border-t-1 w-full pt-5 bg-slate-500 text-white border-gray-900 text-center text-sm ">
+                <div class="border-t-1 w-full pt-2 bg-slate-500 text-white border-gray-900 text-center text-sm ">
                     &copy; 2025 Portfolio Project. All rights reserved.
-                    <div class="flex items-center justify-center text-link font-bold underline">
-                        <p class="p-4"><a href="https://github.com/AndrewTries/COMP_3512-Assignment2">Github</a></p>
-                        <p class="p-4"><a href="mailto:akraw904@mtroyal.ca">Contact</a></p>
+                    <div class="flex items-center gap-5 py-2 justify-center text-link font-bold underline">
+                        <p><a href="https://github.com/AndrewTries/COMP_3512-Assignment2">Github</a></p>
+                        <p><a href="mailto:akraw904@mtroyal.ca">Contact</a></p>
                     </div>
                     <div>
                         <p class="text-xs py-1 bg-slate-600 text-white">Site by Andrew Krawiec</p>

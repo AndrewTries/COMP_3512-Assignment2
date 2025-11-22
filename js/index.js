@@ -11,25 +11,52 @@ document.addEventListener('DOMContentLoaded', () => {
     shoppingcart.style.display = "none";
     about.style.display = "none";
 
+    const products = []
+
     document.querySelector('.cart-count').textContent = '1';
 
     const filter = document.querySelector('#filter');
 
-    const prodCardTemplate = document.querySelector('.product-card');
-    const results = document.querySelector('#results');
-    const clone = template.content.cloneNode(true);
-    const productclone = clone.querySelector("")
-    fetch('data-minified.json')
+    const prodCardTemplate = document.querySelector('#productCard');
+    const productGrid = document.querySelector('.products-grid');
+
+    // Initial Fetch
+    fetch('../data-pretty.json')
         .then(response => response.json())
         .then(data => {
+            products.push(...data)
+            for (let i = 0; i < 3; i++) {
+                const productClone = prodCardTemplate.content.cloneNode(true);
+                
+                const img = productClone.querySelector(".product-image");
+                img.setAttribute("src", "images/kids_backpack.jpg");
+                img.setAttribute("alt", products[i].name);
 
+                const h3 = productClone.querySelector(".product-name");
+                h3.textContent = products[i].name;
+                const price = productClone.querySelector(".product-price");
+                price.textContent = `$${products[i].price}`;
+                
+                productGrid.appendChild(productClone);
+            }
+        })
+        .catch(error => {
+            console.error('There was an error', error);
         });
+
+    // products.forEach(p => {console.log(p.id)})
+
 });
 
-async function getProducts(){
-    
+document.addEventListener('click', (e) => {
+    if (!e.nodeName === "BUTTON") return;
+
+})
+
+async function getProducts() {
+
 }
 
-async function getSingleProduct(){
-    
+async function getSingleProduct() {
+
 }
