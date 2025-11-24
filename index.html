@@ -14,12 +14,12 @@
         <header class="sticky top-0 z-1">
             <div
                 class="grid grid-cols-[5%_20%_65%_10%] items-center justify-between bg-nav px-6 py-2 text-card-title dark:bg-slate-900">
-                <a href="index.html" id="homePage"><img src="images/hollow_logo.png" class="rounded-full w-10 h-10"></a>
-                <h1 class="text-xl font-bold" id="homePage"><a href="index.html">Portfolio Project</a></h1>
+                <a href="index.html" data-page="home"><img src="images/hollow_logo.png" class="rounded-full w-10 h-10"></a>
+                <h1 class="text-xl font-bold" data-page="home"><a href="index.html">Portfolio Project</a></h1>
                 <nav class="flex gap-5 justify-end">
-                    <a id="homePage" href="#">Home</a>
-                    <a id="browsePage" href="#">Browse</a>
-                    <a id="aboutPage" href="#">About</a>
+                    <a data-page="home" href="#">Home</a>
+                    <a data-page="browse" href="#">Browse</a>
+                    <a data-page="about" href="#">About</a>
                 </nav>
                 <div class="ml-10">
                     <a id="cartPage" href="#" class="cart-header flex items-center gap-2 text-md justify-end">
@@ -47,7 +47,7 @@
                                 <p class="text-6xl md:text-8xl text-white font-serif text-shadow-lg pb-2 m-5">Find Your
                                     Style</p>
                             </figcaption>
-                            <div id="browsePage">
+                            <div data-page="browse">
                                 <button
                                     class="browsePage text-md font-mono font-semibold shadow-lg border-gray-400 border-1 py-2 px-6 bg-white"
                                     href="#">
@@ -68,8 +68,8 @@
                         <template id="productCard">
                             <div class="flex items-center justify-center flex-col text-slate-700">
                                 <div
-                                    class="product-image md:h-80 md:w-70 xl:h-100 xl:w-120 overflow-hidden rounded-2xl mb-3">
-                                    <a id="productPage">
+                                    class="product-image md:h-60 md:w-50 lg:h-80 lg:w-70 xl:h-90 xl:w-100 2xl:h-100 2xl:w-120 overflow-hidden rounded-2xl mb-3">
+                                    <a data-page="product">
                                         <img class="w-full h-full object-cover" src="images/kids_backpack.jpg" />
                                     </a>
                                 </div>
@@ -84,41 +84,114 @@
             </div>
 
             <div>
-                <article id="browse" class="grid grid-cols-[30%_70%] gap-6 p-6">
-                    <section id="filter"></section>
-                    <section id="results">
-                        <h1>Search Results</h1>
-                        <div class="products-grid grid md:grid-cols-2 lg:grid-cols-3 grid-gap-5 m-5" id="productsGrid">
-                        <template id="productCard">
-                            <div class="flex items-center justify-center flex-col text-slate-700">
-                                <div
-                                    class="product-image md:h-80 md:w-70 xl:h-100 xl:w-80 overflow-hidden rounded-2xl mb-3">
-                                    <a id="productPage">
-                                        <img class="w-full h-full object-cover" src="images/kids_backpack.jpg" />
-                                    </a>
-                                </div>
-                                <div class="product-name font-semibold">Name</div>
-                                <div class="product-price font-mono">$Price</div>
-                                <button class="add-to-cart-btn" data-id="3" data-name="Parasite" data-price="24.99">Add
-                                    to Cart</button>
+                <article id="browse" class="grid grid-cols-[30%_70%] 2xl:grid-cols-[15%_85%] gap-6 p-6">
+                    <section id="filter" class="flex flex-col sticky gap-10 font-semibold top-[60px] self-start">
+                        <h2 class="text-2xl">Departments</h2>
+                        <!-- <div class="multiselect-dropdown">
+                            <div class="select-gender">Select Gender</div>
+                            <div class="checkbox-list">
+                                <label><input type="checkbox"></label>
                             </div>
-                        </template>
-                    </div>
+                        </div> -->
+                        <!-- <label for="gender">Choose multiple departments:</label> -->
+                        <select data-select="gender" name="gender" id="gender" multiple>
+                            <option value="0">Gender</option>
+                        </select>
+                        <select data-select="category" name="category" id="category" multiple>
+                            <option value="0">Category</option>
+                        </select>
+                        <select data-select="sizes" name="sizes" id="sizes" multiple>
+                            <option value="0">Size</option>
+                        </select>
+                        <select data-select="color" name="color" id="color" multiple>
+                            <option value="0">Color</option>
+                        </select>
+                    </section>
+                    <section id="results">
+                        <h2 class="text-2xl text-center font-semibold">Search Results</h2>
+                        <div class="products-grid grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 grid-gap-5 m-5"
+                            id="productsGrid">
+                            <template id="productCard2">
+                                <div class="flex items-center justify-center flex-col text-slate-700">
+                                    <div
+                                        class="product-image md:h-60 md:w-50 xl:h-90 xl:w-80 2xl:h-100 2xl:w-80 overflow-hidden rounded-2xl mb-3">
+                                        <a data-page="singleproduct">
+                                            <img class="w-full h-full object-cover" src="images/kids_backpack.jpg" />
+                                        </a>
+                                    </div>
+                                    <div class="product-name font-semibold">Name</div>
+                                    <div class="product-price font-mono">$Price</div>
+                                    <button class="add-to-cart-btn" data-id="3" data-name="Parasite"
+                                        data-price="24.99">Add
+                                        to Cart</button>
+                                </div>
+                            </template>
+                        </div>
                     </section>
                 </article>
             </div>
             <div>
                 <article id="singleproduct">
-
+                    <template id="singleTemplate">
+                        <div class="">
+                        </div>
+                    </template>
+                    <template id="relatedTemplate">
+                        <div class="">
+                        </div>
+                    </template>
                 </article>
             </div>
             <div>
                 <article id="shoppingcart">
+                    <h1 class="text-2xl font-semibold text-center">Shopping Cart</h1>
+                    <div class="grid grid-cols-[30%_70%]">
+                        <div class="col-span-2 grid grid-cols-[35%_13%_13%_13%_13%_13%] font-semibold">
+                            <div>Items</div>
+                            <div>Color</div>
+                            <div>Size</div>
+                            <div>Price</div>
+                            <div>Quantity</div>
+                            <div>Subtotal</div>
+                        </div>
+                        <div class="flex flex-col gap-5">
+                            <select id="Shipping">
+                                <option id="0">Shipping Type</option>
+                                <option id="1">Standard</option>
+                                <option id="2">Express</option>
+                                <option id="3">Priority</option>
+                            </select>
+                            <select id="Destination">
+                                <option id="0">Destination</option>
+                                <option id="1">Canada</option>
+                                <option id="2">USA</option>
+                                <option id="3">International</option>
+                            </select>
+                        </div>
 
+                    </div>
+                    <template id="cartItemTemplate">
+                        <div class="">
+                        </div>
+                    </template>
                 </article>
             </div>
             <div>
-                <dialog id="about"></dialog>
+                <dialog id="about">
+                    <h1 class="text-2xl font-bold text-center mt-5">About</h1>
+                    <div class="mx-auto max-w-sm md:max-w-[40%] p-4">
+                        <div class="text-center">
+                            <p class="pb-2">My name is Andrew Krawiec. I am a 3rd year student in Computer Information
+                                Systems. My hobbies include skiing and board games.</p>
+                            <p class="pb-2">This assignment is to demonstrate my profficiency with JavaScript.</p>
+                            <p class="pb-2">The coding languages I am using include JavaScript, HTML and TailWindCSS.
+                            </p>
+                            <p>The technologies I am using include VSCode, GitHub, and git.</p>
+                            <p class="p-4"><a class="text-link underline"
+                                    href="https://github.com/AndrewTries/COMP_3512-Assignment2">github link</a></p>
+                        </div>
+                    </div>
+                </dialog>
             </div>
         </main>
         <footer>
