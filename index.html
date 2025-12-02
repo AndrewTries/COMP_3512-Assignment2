@@ -5,7 +5,7 @@
     <title>Assignment 2</title>
     <script type="text/javascript"></script>
     <link rel="stylesheet" href="css/styles.css" />
-    <script src="js/index.js"></script>
+    <script type="module" src="js/index.js"></script>
 </head>
 
 
@@ -14,7 +14,8 @@
         <header class="sticky top-0 z-1">
             <div
                 class="grid grid-cols-[5%_20%_65%_10%] items-center justify-between bg-nav px-6 py-2 text-card-title dark:bg-slate-900">
-                <a href="index.html" data-page="home"><img src="images/hollow_logo.png" class="rounded-full w-10 h-10"></a>
+                <a href="index.html" data-page="home"><img src="images/hollow_logo.png"
+                        class="rounded-full w-10 h-10"></a>
                 <h1 class="text-xl font-bold" data-page="home"><a href="index.html">Portfolio Project</a></h1>
                 <nav class="flex gap-5 justify-end">
                     <a data-page="home" href="#">Home</a>
@@ -22,7 +23,8 @@
                     <a data-page="about" href="#">About</a>
                 </nav>
                 <div class="ml-10">
-                    <a id="cartPage" href="#" class="cart-header flex items-center gap-2 text-md justify-end">
+                    <a data-page="shoppingcart" href="#"
+                        class="cart-header flex items-center gap-2 text-md justify-end">
                         <h2 class="">🛒 Cart</h2>
                         <div class="cart-count px-1.5 text-sm font-semibold rounded-2xl bg-red-600" id="cartCount">0
                         </div>
@@ -95,23 +97,35 @@
                         </div> -->
                         <!-- <label for="gender">Choose multiple departments:</label> -->
                         <select data-select="gender" name="gender" id="gender" multiple>
-                            <option value="0">Gender</option>
+                            <option value="">Gender</option>
                         </select>
                         <select data-select="category" name="category" id="category" multiple>
-                            <option value="0">Category</option>
+                            <option value="">Category</option>
                         </select>
                         <select data-select="sizes" name="sizes" id="sizes" multiple>
-                            <option value="0">Size</option>
+                            <option value="">Size</option>
                         </select>
                         <select data-select="color" name="color" id="color" multiple>
-                            <option value="0">Color</option>
+                            <option value="">Color</option>
                         </select>
                     </section>
                     <section id="results">
                         <h2 class="text-2xl text-center font-semibold">Search Results</h2>
+                        <div class="flex gap-6 flex-row items-center">
+                            <h3 class="mr-3">Sort</h3>
+                            <select id="sortOrder" name="sortOrder" title="Sort">
+                                <option value="name">Product Name</option>
+                                <option value="price">Price</option>
+                                <option value="category">Category</option>
+                            </select>
+                            <button class="cursor-pointer justify-end snap-end bg-white rounded-xl hover:bg-gray-600" id="resetFilters">Reset Filters</button>
+                        </div>
+                        <p>Applied Filters:</p> 
                         <div class="products-grid grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 grid-gap-5 m-5"
                             id="productsGrid">
-                            <template id="productCard2">
+                            
+                        </div>
+                        <template id="productCard2">
                                 <div class="flex items-center justify-center flex-col text-slate-700">
                                     <div
                                         class="product-image md:h-60 md:w-50 xl:h-90 xl:w-80 2xl:h-100 2xl:w-80 overflow-hidden rounded-2xl mb-3">
@@ -126,7 +140,6 @@
                                         to Cart</button>
                                 </div>
                             </template>
-                        </div>
                     </section>
                 </article>
             </div>
