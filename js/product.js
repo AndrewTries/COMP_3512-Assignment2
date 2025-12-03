@@ -1,2 +1,119 @@
-import { products } from './index.js';
+import { products, useGoToPage } from './index.js';
+import { addToShoppingCart } from './shoppingcart.js';
+export { makeProduct, makeProductCard };
 
+function makeProduct(product) {
+    const prodCardTemplate = document.querySelector('#singleProductTemplate');
+    const productPage = document.querySelector('#productPage');
+    productPage.replaceChildren();
+    const productClone = prodCardTemplate.content.cloneNode(true);
+
+    const imgs = productClone.querySelectorAll(".product-image");
+    imgs.forEach(img => {
+        img.addEventListener("click", () => { makeProduct(product) });
+        img.setAttribute("src", "images/kids_backpack.jpg");
+        img.setAttribute("alt", product.name);
+    });
+
+    breadcrumbs(productClone, product);
+
+    productClone.querySelector(".product-name").textContent = product.name;
+    productClone.querySelector(".product-price").textContent = `$${product.price}`;
+    productClone.querySelector(".product-description").textContent = `${product.description}`;
+    productClone.querySelector(".product-material").textContent = `${product.material}`;
+    productClone.querySelector("#relatedCategory").textContent += ` ${product.category}`;
+
+    attachRelated(product, productClone);
+    const productForm = productClone.querySelector(".product-form");
+    const addToCart = productClone.querySelector(".add-to-cart-btn");
+    const cartPage = productForm.querySelectorAll('[data-page]');
+    addToCart.addEventListener("click", (e) => {
+        useGoToPage(cartPage);
+        addToShoppingCart(product);
+    });
+
+    product.sizes.forEach(s => {
+        const productSize = productClone.querySelector(".product-size");
+        const sizeIcon = document.createElement('span');
+        sizeIcon.textContent = `${s}`;
+        sizeIcon.classList.add('h-8', 'aspect-square', 'border-1', 'border-black', 'text-center', 'justify-center');
+        sizeIcon.addEventListener("click", () => addToCart.setAttribute('data-size', s));
+        sizeIcon.addEventListener("change", () => addToCart.setAttribute('data-quantity', productQuantity.value));
+        productSize.appendChild(sizeIcon);
+    })
+
+    product.color.forEach(c => {
+        const productColor = productClone.querySelector(".product-color");
+        const colorIcon = document.createElement('span');
+        colorIcon.style.backgroundColor = `${c.hex}`;
+        colorIcon.classList.add('h-8', 'aspect-square', 'border-1');
+        colorIcon.addEventListener("click", () => addToCart.setAttribute('data-color', `${c.hex}`));
+        productColor.appendChild(colorIcon);
+    })
+    const productQuantity = productClone.querySelector("#quantity");
+
+
+    productPage.appendChild(productClone);
+}
+
+function breadcrumbs(container, product) {
+    const breadcrumbs = container.querySelector("#breadcrumbs");
+    // const home = document.createElement()
+    breadcrumbs.textContent = `Browse > ${product.gender} > ${product.category} > ${product.name}`;
+    breadcrumbs.addEventListener("click", () => { useGoToPage('browse') });
+
+}
+
+function attachRelated(product, parentTemplate) {
+    const filteredCategory = products.filter(p =>
+        p.category === product.category
+        && p.name !== product.name);
+    const randomCatEnd = Math.floor(Math.random() * filteredCategory.length);
+    const randomCatStart = randomCatEnd > 2 ? randomCatEnd - 2 : 0
+    const relatedCategory = filteredCategory.slice(randomCatStart, randomCatEnd);
+    relatedCategory.forEach(p => console.log(p));
+
+    let filteredPrice = products.filter(p =>
+    ((p.price >= product.price - (product.price * 0.1)
+        && p.price <= product.price + (product.price * 0.1))
+        && (p.name !== product.name)));
+    filteredPrice = filteredPrice.filter(p => !relatedCategory.includes(p));
+    filteredPrice.forEach(p => console.log("Price: ", p.price, p.name));
+
+    let randomPriceStart, randomPriceEnd;
+    while (randomPriceStart === randomPriceEnd && randomPriceStart > (randomPriceEnd - 1)) {
+        randomPriceStart = Math.floor(Math.random() * filteredPrice.length);
+        randomPriceEnd = Math.floor(Math.random() * filteredPrice.length);
+    }
+    const relatedPrice = filteredPrice.slice(randomPriceStart, randomPriceEnd);
+
+    relatedPrice.forEach(p => console.log(p.price, p.name));
+
+    const relatedProducts = [...relatedCategory, ...relatedPrice];
+    const prodCardTemplate = document.querySelector('#relatedTemplate');
+    const productPage = parentTemplate.querySelector('#releated-products');
+    makeProductCard(prodCardTemplate, productPage, relatedProducts.slice(0, 4));
+}
+
+
+function makeProductCard(prodCardTemplate, parent, productList) {
+    productList.forEach(p => {
+        const productClone = prodCardTemplate.content.cloneNode(true);
+
+        const img = productClone.querySelector(".product-image");
+        img.addEventListener("click", () => { makeProduct(p) });
+        img.setAttribute("src", "images/kids_backpack.jpg");
+        img.setAttribute("alt", p.name);
+
+        const productName = productClone.querySelector(".product-name");
+        productName.addEventListener("click", () => makeProduct(p));
+        productName.textContent = p.name;
+
+        productClone.querySelector(".product-price").textContent = `$${p.price}`;
+
+        const linkToProduct = productClone.querySelectorAll('[data-page]');
+        useGoToPage(linkToProduct);
+
+        parent.appendChild(productClone);
+    })
+}

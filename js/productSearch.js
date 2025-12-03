@@ -1,34 +1,23 @@
-import { products } from './index.js';
+import { products, useGoToPage } from './index.js';
+import { makeProduct, makeProductCard } from './product.js';
 export { getProducts, populateDepartements, sortOrder, resetFilter, setProducts };
 
 let productList = []
 
-async function setProducts (products) {
+async function setProducts(products) {
     productList = products.sort((a, b) => a.name.localeCompare(b.name));
     getProducts(productList);
 }
 
 async function getProducts(productList) {
-    const prodCardTemplate2 = document.querySelector('#browse #productCard2');
-    const productGrid2 = document.querySelector('#browse .products-grid');
-    productGrid2.replaceChildren();
+    const prodCardTemplate = document.querySelector('#browseProductCard');
+    const productGrid = document.querySelector('#browse .products-grid');
+    productGrid.replaceChildren();
     if (!productList.length > 0) {
-        productGrid2.textContent = "No products found";
+        productGrid.textContent = "No products found";
         return;
     }
-
-    productList.forEach(p => {
-        const productClone2 = prodCardTemplate2.content.cloneNode(true);
-
-        const img = productClone2.querySelector(".product-image");
-        img.setAttribute("src", "images/kids_backpack.jpg");
-        img.setAttribute("alt", p.name);
-
-        productClone2.querySelector(".product-name").textContent = p.name;
-        productClone2.querySelector(".product-price").textContent = `$${p.price}`;
-
-        productGrid2.appendChild(productClone2);
-    })
+    makeProductCard(prodCardTemplate, productGrid, productList);
 }
 
 
@@ -90,7 +79,7 @@ function handleSelectProductChange(e, select) {
     const filtered = products.filter(p => p[select] == selectID)
     productList = filtered;
     getProducts(filtered);
-}   
+}
 
 function sortOrder() {
     const sortSelect = document.querySelector("#sortOrder")
@@ -113,5 +102,3 @@ function resetFilter() {
         getProducts(productList);
     })
 }
-
-

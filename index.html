@@ -67,21 +67,22 @@
                         <p>Staff picks of our latest products.</p>
                     </div>
                     <div class="products-grid grid md:grid-cols-2 lg:grid-cols-3 grid-gap-5 m-5" id="productsGrid">
-                        <template id="productCard">
-                            <div class="flex items-center justify-center flex-col text-slate-700">
-                                <div
-                                    class="product-image md:h-60 md:w-50 lg:h-80 lg:w-70 xl:h-90 xl:w-100 2xl:h-100 2xl:w-120 overflow-hidden rounded-2xl mb-3">
-                                    <a data-page="product">
-                                        <img class="w-full h-full object-cover" src="images/kids_backpack.jpg" />
-                                    </a>
-                                </div>
-                                <div class="product-name font-semibold">Name</div>
-                                <div class="product-price font-mono">$Price</div>
-                                <button class="add-to-cart-btn" data-id="3" data-name="Parasite" data-price="24.99">Add
-                                    to Cart</button>
-                            </div>
-                        </template>
+
                     </div>
+                    <template id="featuredProductCard">
+                        <div class="flex items-center justify-center flex-col text-slate-700">
+                            <div
+                                class="product-image md:h-60 md:w-50 lg:h-80 lg:w-70 xl:h-90 xl:w-100 2xl:h-100 2xl:w-120 overflow-hidden rounded-2xl mb-3">
+                                <a data-page="singleproduct">
+                                    <img class="w-full h-full object-cover" src="images/kids_backpack.jpg" />
+                                </a>
+                            </div>
+                            <div data-page="singleproduct" class="product-name font-semibold">Name</div>
+                            <div class="product-price font-mono">$Price</div>
+                            <button class="add-to-cart-btn" data-id="3" data-name="Parasite" data-price="24.99">Add
+                                to Cart</button>
+                        </div>
+                    </template>
                 </article>
             </div>
 
@@ -118,39 +119,111 @@
                                 <option value="price">Price</option>
                                 <option value="category">Category</option>
                             </select>
-                            <button class="cursor-pointer justify-end snap-end bg-white rounded-xl hover:bg-gray-600" id="resetFilters">Reset Filters</button>
+                            <button class="cursor-pointer justify-end snap-end bg-white rounded-xl hover:bg-gray-600"
+                                id="resetFilters">Reset Filters</button>
                         </div>
-                        <p>Applied Filters:</p> 
+                        <p>Applied Filters:</p>
                         <div class="products-grid grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 grid-gap-5 m-5"
                             id="productsGrid">
-                            
+
                         </div>
-                        <template id="productCard2">
-                                <div class="flex items-center justify-center flex-col text-slate-700">
-                                    <div
-                                        class="product-image md:h-60 md:w-50 xl:h-90 xl:w-80 2xl:h-100 2xl:w-80 overflow-hidden rounded-2xl mb-3">
-                                        <a data-page="singleproduct">
-                                            <img class="w-full h-full object-cover" src="images/kids_backpack.jpg" />
-                                        </a>
-                                    </div>
-                                    <div class="product-name font-semibold">Name</div>
-                                    <div class="product-price font-mono">$Price</div>
-                                    <button class="add-to-cart-btn" data-id="3" data-name="Parasite"
-                                        data-price="24.99">Add
-                                        to Cart</button>
+                        <template id="browseProductCard">
+                            <div class="flex items-center justify-center flex-col text-slate-700">
+                                <div
+                                    class="product-image md:h-60 md:w-50 xl:h-90 xl:w-80 2xl:h-100 2xl:w-80 overflow-hidden rounded-2xl mb-3">
+                                    <a data-page="singleproduct">
+                                        <img class="w-full h-full object-cover" src="images/kids_backpack.jpg" />
+                                    </a>
                                 </div>
-                            </template>
+                                <div data-page="singleproduct" class="product-name font-semibold">Name</div>
+                                <div class="product-price font-mono">$Price</div>
+                                <button class="add-to-cart-btn" data-id="3" data-name="Parasite" data-price="24.99">Add
+                                    to Cart</button>
+                            </div>
+                        </template>
                     </section>
                 </article>
             </div>
             <div>
                 <article id="singleproduct">
-                    <template id="singleTemplate">
-                        <div class="">
+                    <div id="productPage" class="min-h-screen">
+
+                    </div>
+                    <template id="singleProductTemplate" class="py-5 px-5 items-center">
+                        <div class="flex flex-col py-5 px-5 gap-5 mx-auto w-full max-w-7xl">
+                            <div id="breadcrumbs">Breadcrumbs</div>
+                            <div class="flex">
+                                <div class="flex flex-col w-[50%] gap-5 pr-5">
+                                    <img class="product-image object-cover col-span-2 " />
+                                    <div class="flex gap-5">
+                                        <img class="product-image object-cover w-[25%] aspect-square" />
+                                        <img class="product-image object-cover w-[25%] aspect-square" />
+                                    </div>
+                                </div>
+                                <div class="w-[50%]">
+                                    <div class="flex flex-col gap-4">
+                                        <div class="product-name text-2xl font-bold">Name</div>
+                                        <div class="product-price font-mono text-xl">$Price</div>
+                                        <div>
+                                            <h3 class="text-md">About this item</h3>
+                                            <p class="product-description pl-2"></p>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-md">Material</h3>
+                                            <p class="product-material pl-2"></p>
+                                        </div>
+                                        <form class="product-form flex flex-col gap-4">
+                                            <div class="flex gap-4">
+                                                <label for="quantity"
+                                                    class="product-quantity text-md font-bold">Quantity</label>
+                                                <input type="number" id="quantity" name="quanity" placeholder="1"
+                                                    class="border-1">
+                                            </div>
+
+                                            <div class="text-md font-bold">
+                                                <h3 class="text-md pb-1">Sizes</h3>
+                                                <div class="product-size flex gap-2 font-semibold text-gray-400">
+                                                </div>
+                                                <h3 class="text-md pb-1">Colors</h3>
+                                                <div class="product-color flex gap-2">
+                                                </div>
+                                            </div>
+                                            <button type="submit"
+                                                class="add-to-cart-btn text-center flex-wrap justify-center font-semibold rounded-lg h-fit w-fit p-2 bg-gray-200 border-1 border-slate-800"
+                                                data-page="shoppingcart" data-id="" data-name="" data-price=""
+                                                data-quantity="1">
+                                                + Add to Cart</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <h2 class="text-2xl font-bold text-center border-t-2 border-t-gray-500 mt-3 pt-3">
+                                Related Products</h2>
+                            <div class="grid grid-cols-2 text-center font-semibold">
+                                <div id="relatedCategory">Products in category </div>
+                                <div>Products in the same price range</div>
+                            </div>
+                            <div id="releated-products" class="flex gap-5">
+
+                            </div>
+
                         </div>
                     </template>
                     <template id="relatedTemplate">
-                        <div class="">
+                        <div class="flex flex-col max-w-full overflow-hidden">
+                            <div>
+                                <img class="product-image overflow-hidden rounded-2xl mb-3" />
+                            </div>
+                            <div class="flex justify-between">
+                                <div class="flex-col">
+                                    <div data-page="singleproduct" class="product-name font-semibold">Name</div>
+                                    <div class="product-price font-mono">$Price</div>
+                                </div>
+                                <div class="text-lg font-bold flex rounded-lg h-fit bg-gray-500 border-1 p-1">
+                                    <button data-page="shoppingcart"
+                                        class="add-to-cart-btn text-center flex-wrap justify-center">+</button>
+                                </div>
+                            </div>
                         </div>
                     </template>
                 </article>
@@ -158,34 +231,58 @@
             <div>
                 <article id="shoppingcart">
                     <h1 class="text-2xl font-semibold text-center">Shopping Cart</h1>
-                    <div class="grid grid-cols-[30%_70%]">
-                        <div class="col-span-2 grid grid-cols-[35%_13%_13%_13%_13%_13%] font-semibold">
-                            <div>Items</div>
-                            <div>Color</div>
-                            <div>Size</div>
-                            <div>Price</div>
-                            <div>Quantity</div>
-                            <div>Subtotal</div>
+                    <div class="flex flex-col h-[70vh] p-5">
+                        <div class="flex-1 flex-col overflow-y-auto">
+                            <div class="col-span-2 grid grid-cols-[35%_13%_13%_13%_13%_13%] font-semibold ">
+                                <div>Items</div>
+                                <div>Color</div>
+                                <div>Size</div>
+                                <div>Price</div>
+                                <div>Quantity</div>
+                                <div>Subtotal</div>
+                            </div>
+                            <div id="shoppingCartGrid" class="col-span-2 grid grid-cols-[35%_13%_13%_13%_13%_13%]">
+                            </div>
                         </div>
-                        <div class="flex flex-col gap-5">
-                            <select id="Shipping">
-                                <option id="0">Shipping Type</option>
-                                <option id="1">Standard</option>
-                                <option id="2">Express</option>
-                                <option id="3">Priority</option>
-                            </select>
-                            <select id="Destination">
-                                <option id="0">Destination</option>
-                                <option id="1">Canada</option>
-                                <option id="2">USA</option>
-                                <option id="3">International</option>
-                            </select>
+                        <div class="flex justify-between">
+                            <div class="flex flex-col gap-5 border-1">
+                                <h3>Shipping</h3>
+                                <select id="Shipping">
+                                    <option id="0">Shipping Type</option>
+                                    <option id="1">Standard</option>
+                                    <option id="2">Express</option>
+                                    <option id="3">Priority</option>
+                                </select>
+                                <select id="Destination">
+                                    <option id="0">Destination</option>
+                                    <option id="1">Canada</option>
+                                    <option id="2">USA</option>
+                                    <option id="3">International</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-5 gap-x-60 mr-[10vw] border-1 p-5">
+                                <div>Merchandise</div>
+                                <div id="merchAmount">$ 100</div>
+                                <div>Shipping</div>
+                                <div id="shippingAmount">$</div>
+                                <div>Tax</div>
+                                <div id="taxAmount">$</div>
+                                <div class="font-bold">Total</div>
+                                <div id="totalAmount">$</div>
+                            </div>
                         </div>
-
                     </div>
                     <template id="cartItemTemplate">
-                        <div class="">
+                        <div class="flex">
+                            <div class="product-remove flex gap-2 font-semibold text-gray-400">-</div>
+                            <div class="product-image"></div>
+                            <div class="product-title"></div>
                         </div>
+                        <div class="product-color text-md pb-1 flex gap-2"></div>
+                        <div class="product-size flex gap-2 font-semibold text-gray-400"></div>
+                        <div class="product-price"></div>
+                        <div class="product-quanity"></div>
+                        <div class="product-subtotal"></div>
                     </template>
                 </article>
             </div>
