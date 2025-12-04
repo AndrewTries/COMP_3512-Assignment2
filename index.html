@@ -20,7 +20,7 @@
                 <nav class="flex gap-5 justify-end">
                     <a data-page="home" href="#">Home</a>
                     <a data-page="browse" href="#">Browse</a>
-                    <a data-page="about" href="#">About</a>
+                    <a class="about" href="#">About</a>
                 </nav>
                 <div class="ml-10">
                     <a data-page="shoppingcart" href="#"
@@ -51,8 +51,7 @@
                             </figcaption>
                             <div data-page="browse">
                                 <button
-                                    class="browsePage text-md font-mono font-semibold shadow-lg border-gray-400 border-1 py-2 px-6 bg-white"
-                                    href="#">
+                                    class="browsePage text-md font-mono font-semibold shadow-lg border-gray-400 border-1 py-2 px-6 bg-white">
                                     BROWSE PRODUCTS
                                 </button>
                             </div>
@@ -90,25 +89,21 @@
                 <article id="browse" class="grid grid-cols-[30%_70%] 2xl:grid-cols-[15%_85%] gap-6 p-6">
                     <section id="filter" class="flex flex-col sticky gap-10 font-semibold top-[60px] self-start">
                         <h2 class="text-2xl">Departments</h2>
-                        <!-- <div class="multiselect-dropdown">
-                            <div class="select-gender">Select Gender</div>
-                            <div class="checkbox-list">
-                                <label><input type="checkbox"></label>
-                            </div>
-                        </div> -->
-                        <!-- <label for="gender">Choose multiple departments:</label> -->
                         <select data-select="gender" name="gender" id="gender" multiple>
-                            <option value="">Gender</option>
+                            <option data-gender="" value="">Gender</option>
                         </select>
                         <select data-select="category" name="category" id="category" multiple>
-                            <option value="">Category</option>
+                            <option data-category="" value="">Category</option>
                         </select>
                         <select data-select="sizes" name="sizes" id="sizes" multiple>
                             <option value="">Size</option>
                         </select>
-                        <select data-select="color" name="color" id="color" multiple>
+                        <div class="grid grid-cols-8 gap-2" data-select="color" name="color" id="catColor">
+                            
+                        </div>
+                        <!-- <select data-select="color" name="color" id="color" multiple>
                             <option value="">Color</option>
-                        </select>
+                        </select> -->
                     </section>
                     <section id="results">
                         <h2 class="text-2xl text-center font-semibold">Search Results</h2>
@@ -119,7 +114,7 @@
                                 <option value="price">Price</option>
                                 <option value="category">Category</option>
                             </select>
-                            <button class="cursor-pointer justify-end snap-end bg-white rounded-xl hover:bg-gray-600"
+                            <button class="justify-end snap-end bg-white rounded-xl hover:bg-gray-600"
                                 id="resetFilters">Reset Filters</button>
                         </div>
                         <p>Applied Filters:</p>
@@ -151,7 +146,14 @@
                     </div>
                     <template id="singleProductTemplate" class="py-5 px-5 items-center">
                         <div class="flex flex-col py-5 px-5 gap-5 mx-auto w-full max-w-7xl">
-                            <div id="breadcrumbs">Breadcrumbs</div>
+                            <div id="breadcrumbs">
+                                <ul>
+                                    <li data-page="home">Home</li>
+                                    <li data-page="browse">Browse</li>
+                                    <li id="" data-page=""></li>
+                                    <li data-page="singleproduct"></li>
+                                </ul>
+                            </div>
                             <div class="flex">
                                 <div class="flex flex-col w-[50%] gap-5 pr-5">
                                     <img class="product-image object-cover col-span-2 " />
@@ -219,7 +221,8 @@
                                     <div data-page="singleproduct" class="product-name font-semibold">Name</div>
                                     <div class="product-price font-mono">$Price</div>
                                 </div>
-                                <div class="text-lg font-bold flex rounded-lg h-fit bg-gray-500 border-1 p-1">
+                                <div
+                                    class="text-lg font-bold flex rounded-lg h-fit aspect-square bg-gray-500 border-1 px-2">
                                     <button data-page="shoppingcart"
                                         class="add-to-cart-btn text-center flex-wrap justify-center">+</button>
                                 </div>
@@ -273,36 +276,39 @@
                         </div>
                     </div>
                     <template id="cartItemTemplate">
-                        <div class="flex">
+                        <div class="flex gap-5">
                             <div class="product-remove flex gap-2 font-semibold text-gray-400">-</div>
-                            <div class="product-image"></div>
+                            <div class="flex h-[5vh] aspect-square"><img src="" class="product-image"></div>
                             <div class="product-title"></div>
                         </div>
                         <div class="product-color text-md pb-1 flex gap-2"></div>
                         <div class="product-size flex gap-2 font-semibold text-gray-400"></div>
                         <div class="product-price"></div>
-                        <div class="product-quanity"></div>
+                        <div class="product-quantity"></div>
                         <div class="product-subtotal"></div>
                     </template>
                 </article>
             </div>
-            <div>
-                <dialog id="about">
-                    <h1 class="text-2xl font-bold text-center mt-5">About</h1>
-                    <div class="mx-auto max-w-sm md:max-w-[40%] p-4">
-                        <div class="text-center">
-                            <p class="pb-2">My name is Andrew Krawiec. I am a 3rd year student in Computer Information
-                                Systems. My hobbies include skiing and board games.</p>
-                            <p class="pb-2">This assignment is to demonstrate my profficiency with JavaScript.</p>
-                            <p class="pb-2">The coding languages I am using include JavaScript, HTML and TailWindCSS.
-                            </p>
-                            <p>The technologies I am using include VSCode, GitHub, and git.</p>
-                            <p class="p-4"><a class="text-link underline"
-                                    href="https://github.com/AndrewTries/COMP_3512-Assignment2">github link</a></p>
-                        </div>
+
+            <dialog id="about" data-open="0"
+                class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg backdrop:bg-black/30">
+                <div id="onlyDialog">
+                <button id="aboutClose" class="absolute top-0 right-0 p-2 text-black">✖</button>
+                <h1 class="font-bold text-center mt-5">About</h1>
+                <div class="mx-auto max-w-lg md:max-w-[40%] py-4">
+                    <div class="text-center">
+                        <p class="pb-2">My name is Andrew Krawiec. I am a 3rd year student in Computer Information
+                            Systems. My hobbies include skiing and board games.</p>
+                        <p class="pb-2">This assignment is to demonstrate my profficiency with JavaScript.</p>
+                        <p class="pb-2">The coding languages I am using include JavaScript, HTML and TailWindCSS.
+                        </p>
+                        <p>The technologies I am using include VSCode, GitHub, and git.</p>
+                        <p class="p-4"><a class="text-link underline"
+                                href="https://github.com/AndrewTries/COMP_3512-Assignment2">github link</a></p>
                     </div>
-                </dialog>
-            </div>
+                </div>
+                </div>
+            </dialog>
         </main>
         <footer>
             <div class="flex items-center justify-center">

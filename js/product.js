@@ -1,5 +1,5 @@
-import { products, useGoToPage } from './index.js';
-import { addToShoppingCart } from './shoppingcart.js';
+import { products, useGoToPage, goToPage } from './index.js';
+import { addToShoppingCart, ShoppingCartProduct } from './shoppingcart.js';
 export { makeProduct, makeProductCard };
 
 function makeProduct(product) {
@@ -27,18 +27,19 @@ function makeProduct(product) {
     const productForm = productClone.querySelector(".product-form");
     const addToCart = productClone.querySelector(".add-to-cart-btn");
     const cartPage = productForm.querySelectorAll('[data-page]');
-    addToCart.addEventListener("click", (e) => {
-        useGoToPage(cartPage);
-        addToShoppingCart(product);
-    });
 
-    product.sizes.forEach(s => {
+    /* Default Size*/
+    addToCart.setAttribute('data-size', product.sizes[0]);
+    /* Default Color*/
+    addToCart.setAttribute('data-color', `${product.color[0].hex}`);
+
+    product.sizes.forEach(s => {        
         const productSize = productClone.querySelector(".product-size");
         const sizeIcon = document.createElement('span');
         sizeIcon.textContent = `${s}`;
-        sizeIcon.classList.add('h-8', 'aspect-square', 'border-1', 'border-black', 'text-center', 'justify-center');
+        sizeIcon.classList.add('h-8', 'border-1', 'border-black', 'text-center', 'justify-center', 'hover:cursor-pointer');
+        s !== 'One Size' ? sizeIcon.classList.add('aspect-square') : sizeIcon.classList.add('px-1');
         sizeIcon.addEventListener("click", () => addToCart.setAttribute('data-size', s));
-        sizeIcon.addEventListener("change", () => addToCart.setAttribute('data-quantity', productQuantity.value));
         productSize.appendChild(sizeIcon);
     })
 
@@ -46,22 +47,32 @@ function makeProduct(product) {
         const productColor = productClone.querySelector(".product-color");
         const colorIcon = document.createElement('span');
         colorIcon.style.backgroundColor = `${c.hex}`;
-        colorIcon.classList.add('h-8', 'aspect-square', 'border-1');
+        colorIcon.classList.add('h-8', 'aspect-square', 'border-1', 'hover:cursor-pointer');
         colorIcon.addEventListener("click", () => addToCart.setAttribute('data-color', `${c.hex}`));
         productColor.appendChild(colorIcon);
     })
     const productQuantity = productClone.querySelector("#quantity");
+    productQuantity.addEventListener("input", () => addToCart.setAttribute('data-quantity', productQuantity.value));
 
+
+    addToCart.addEventListener("click", () => {
+        useGoToPage(cartPage);
+        addToShoppingCart(new ShoppingCartProduct(product, addToCart.dataset.color, addToCart.dataset.size, addToCart.dataset.quantity));
+    });
 
     productPage.appendChild(productClone);
 }
 
 function breadcrumbs(container, product) {
     const breadcrumbs = container.querySelector("#breadcrumbs");
-    // const home = document.createElement()
+    const crumbs = breadcrumbs.querySelectorAll('[data-page]');
+    // for (let crumb of crumbs){
+    //     crumb.dataset.page = 
+    // }
     breadcrumbs.textContent = `Browse > ${product.gender} > ${product.category} > ${product.name}`;
-    breadcrumbs.addEventListener("click", () => { useGoToPage('browse') });
-
+    breadcrumbs.setAttribute('data-page', 'browse');
+    // breadcrumbs.addEventListener("click", () => { useGoToPage(crumbs) });
+    breadcrumbs.addEventListener("click", () => { goToPage('browse') });
 }
 
 function attachRelated(product, parentTemplate) {

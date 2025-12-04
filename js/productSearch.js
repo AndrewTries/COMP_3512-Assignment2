@@ -30,35 +30,34 @@ async function populateDepartements() {
     selects.forEach(sel => {
         const select = sel.dataset.select;
         let options;
-        if (select === 'sizes' || select == 'color') {
-            options = products.map(product => [...product[select]]);
-            options = options.flatMap(t => t);
+        let uniqueOptions;
+        if (select === 'sizes') {
+            options = products.map(product => [...product[select]]).flatMap(t => t);
+        } else if (select == 'color') {
+            options = products.flatMap(product => product[select])
+            uniqueOptions = new Map();
+            options.forEach(o => uniqueOptions.set(o.name, o));
         } else options = products.map(product => product[select]);
-        // let uniqueOptions = new Set(options.sort((a,b) => a.localeCompare(b)));
-        let uniqueOptions = new Set(options);
+        if (select !== 'color') uniqueOptions = new Set(options);
         let selected = document.querySelector(`select#${select}`);
 
         let count = {};
         options.forEach(o => count[o] = (count[o] || 0) + 1);
         // count = options.filter(c => c === cat).length;
         //https://codepen.io/nmcinteer/pen/owZoqe
-        uniqueOptions.forEach(cat => {
-            const opt = document.createElement('option');
-            if (select === 'color') {
-                opt.textContent = `${cat.name} ${cat.hex}`;
-                opt.style.backgroundColor = cat.hex;
-
-                // opt.classList.add('flex', 'gap-2');
-                // opt.value = cat.hex;                    
-                // const boxColor = document.createElement('div');
-                // const text = document.createElement('div');                
-                // boxColor.classList.add('h-4', 'w-4', 'rounded-sm', 'border-1', 'border-black');
-                // boxColor.style.backgroundColor = cat.hex;
-                // text.textContent = `${cat.name} ${cat.hex}`;
-                // opt.appendChild(text);
-                // opt.appendChild(boxColor);
+        const catColor = document.querySelector("#catColor");
+        if (select === 'color') {
+            for (let obj of uniqueOptions.values()) {
+                const colorIcon = document.createElement('span');
+                colorIcon.style.backgroundColor = `${obj.hex}`;
+                colorIcon.classList.add('h-4', 'rounded-sm', 'aspect-square', 'border-1', 'hover:cursor-pointer');
+                colorIcon.addEventListener("click", () => addToCart.setAttribute('data-select', `${obj.hex}`));
+                catColor.appendChild(colorIcon);
             }
-            else { opt.value = cat; opt.textContent = `${cat} (${count[cat]})`; }
+        } else uniqueOptions.forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = `${cat} (${count[cat]})`;
             selected.appendChild(opt);
         })
         console.log("sel", sel)
