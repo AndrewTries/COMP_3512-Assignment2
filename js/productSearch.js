@@ -36,7 +36,8 @@ async function populateDepartements() {
         } else if (select == 'color') {
             options = products.flatMap(product => product[select])
             uniqueOptions = new Map();
-            options.forEach(o => uniqueOptions.set(o.name, o));
+            options.forEach(o => uniqueOptions.set(o.hex, o));
+            // if(uniqueOptions) console.log(uniqueOptions.forEach(u => console.log(u.hex, " ", u.name)))
         } else options = products.map(product => product[select]);
         if (select !== 'color') uniqueOptions = new Set(options);
         let selected = document.querySelector(`select#${select}`);
@@ -50,6 +51,7 @@ async function populateDepartements() {
             for (let obj of uniqueOptions.values()) {
                 const colorIcon = document.createElement('span');
                 colorIcon.style.backgroundColor = `${obj.hex}`;
+                colorIcon.title = obj.name;
                 colorIcon.classList.add('h-4', 'rounded-sm', 'aspect-square', 'border-1', 'hover:cursor-pointer');
                 colorIcon.addEventListener("click", () => addToCart.setAttribute('data-select', `${obj.hex}`));
                 catColor.appendChild(colorIcon);
@@ -58,9 +60,10 @@ async function populateDepartements() {
             const opt = document.createElement('option');
             opt.value = cat;
             opt.textContent = `${cat} (${count[cat]})`;
+            opt.classList.add('h-4', 'rounded-sm', 'aspect-square', 'border-1', 'hover:cursor-pointer');
+            opt.classList.add('flex', 'justify-between');
             selected.appendChild(opt);
         })
-        console.log("sel", sel)
         sel.addEventListener('change', (e) => { handleSelectProductChange(e, select) });
     });
 }
@@ -71,10 +74,10 @@ async function populateDepartements() {
  * @param {*} products 
  */
 function handleSelectProductChange(e, select) {
-    console.log("select", select)
-    console.log(e)
+    // console.log("select", select)
+    // console.log(e)
     const selectID = e.target.value;
-    console.log(selectID);
+    // console.log(selectID);
     const filtered = products.filter(p => p[select] == selectID)
     productList = filtered;
     getProducts(filtered);
@@ -84,12 +87,12 @@ function sortOrder() {
     const sortSelect = document.querySelector("#sortOrder")
     sortSelect.addEventListener('change', e => {
         const sortValue = e.target.value;
-        console.log(sortValue)
+        // console.log(sortValue)
         let sortedProducts;
         sortValue == 'price'
             ? sortedProducts = products.sort((a, b) => b[sortValue] - a[sortValue])
             : sortedProducts = products.sort((a, b) => a[sortValue].localeCompare(b[sortValue]));
-        console.log(sortedProducts)
+        // console.log(sortedProducts)
         getProducts(sortedProducts);
     });
 }

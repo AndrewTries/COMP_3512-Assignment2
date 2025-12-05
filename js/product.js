@@ -30,10 +30,11 @@ function makeProduct(product) {
 
     /* Default Size*/
     addToCart.setAttribute('data-size', product.sizes[0]);
+
     /* Default Color*/
     addToCart.setAttribute('data-color', `${product.color[0].hex}`);
 
-    product.sizes.forEach(s => {        
+    product.sizes.forEach(s => {
         const productSize = productClone.querySelector(".product-size");
         const sizeIcon = document.createElement('span');
         sizeIcon.textContent = `${s}`;
@@ -56,7 +57,11 @@ function makeProduct(product) {
 
 
     addToCart.addEventListener("click", () => {
-        useGoToPage(cartPage);
+        // useGoToPage(cartPage);
+        let cart = document.querySelector('.cart-count')
+        const cartCount = Number(cart.dataset.cartcount) + Number(addToCart.dataset.quantity);
+        cart.textContent = cartCount;
+        cart.setAttribute('data-cartcount', cartCount);
         addToShoppingCart(new ShoppingCartProduct(product, addToCart.dataset.color, addToCart.dataset.size, addToCart.dataset.quantity));
     });
 
@@ -82,14 +87,14 @@ function attachRelated(product, parentTemplate) {
     const randomCatEnd = Math.floor(Math.random() * filteredCategory.length);
     const randomCatStart = randomCatEnd > 2 ? randomCatEnd - 2 : 0
     const relatedCategory = filteredCategory.slice(randomCatStart, randomCatEnd);
-    relatedCategory.forEach(p => console.log(p));
+    // relatedCategory.forEach(p => console.log(p));
 
     let filteredPrice = products.filter(p =>
     ((p.price >= product.price - (product.price * 0.1)
         && p.price <= product.price + (product.price * 0.1))
         && (p.name !== product.name)));
     filteredPrice = filteredPrice.filter(p => !relatedCategory.includes(p));
-    filteredPrice.forEach(p => console.log("Price: ", p.price, p.name));
+    // filteredPrice.forEach(p => console.log("Price: ", p.price, p.name));
 
     let randomPriceStart, randomPriceEnd;
     while (randomPriceStart === randomPriceEnd && randomPriceStart > (randomPriceEnd - 1)) {
@@ -98,7 +103,7 @@ function attachRelated(product, parentTemplate) {
     }
     const relatedPrice = filteredPrice.slice(randomPriceStart, randomPriceEnd);
 
-    relatedPrice.forEach(p => console.log(p.price, p.name));
+    // relatedPrice.forEach(p => console.log(p.price, p.name));
 
     const relatedProducts = [...relatedCategory, ...relatedPrice];
     const prodCardTemplate = document.querySelector('#relatedTemplate');

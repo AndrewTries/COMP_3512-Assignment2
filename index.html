@@ -26,7 +26,8 @@
                     <a data-page="shoppingcart" href="#"
                         class="cart-header flex items-center gap-2 text-md justify-end">
                         <h2 class="">🛒 Cart</h2>
-                        <div class="cart-count px-1.5 text-sm font-semibold rounded-2xl bg-red-600" id="cartCount">0
+                        <div class="cart-count px-1.5 text-sm font-semibold rounded-2xl bg-red-600" data-cartcount="0"
+                            id="cartCount">0
                         </div>
                     </a>
                 </div>
@@ -73,10 +74,12 @@
                             <div
                                 class="product-image md:h-60 md:w-50 lg:h-80 lg:w-70 xl:h-90 xl:w-100 2xl:h-100 2xl:w-120 overflow-hidden rounded-2xl mb-3">
                                 <a data-page="singleproduct">
-                                    <img class="w-full h-full object-cover" src="images/kids_backpack.jpg" />
+                                    <img class="w-full h-full object-cover hover:cursor-pointer"
+                                        src="images/kids_backpack.jpg" />
                                 </a>
                             </div>
-                            <div data-page="singleproduct" class="product-name font-semibold">Name</div>
+                            <div data-page="singleproduct" class="product-name font-semibold hover:cursor-pointer">Name
+                            </div>
                             <div class="product-price font-mono">$Price</div>
                             <button class="add-to-cart-btn" data-id="3" data-name="Parasite" data-price="24.99">Add
                                 to Cart</button>
@@ -89,17 +92,26 @@
                 <article id="browse" class="grid grid-cols-[30%_70%] 2xl:grid-cols-[15%_85%] gap-6 p-6">
                     <section id="filter" class="flex flex-col sticky gap-10 font-semibold top-[60px] self-start">
                         <h2 class="text-2xl">Departments</h2>
-                        <select data-select="gender" name="gender" id="gender" multiple>
-                            <option data-gender="" value="">Gender</option>
-                        </select>
-                        <select data-select="category" name="category" id="category" multiple>
-                            <option data-category="" value="">Category</option>
-                        </select>
-                        <select data-select="sizes" name="sizes" id="sizes" multiple>
-                            <option value="">Size</option>
-                        </select>
-                        <div class="grid grid-cols-8 gap-2" data-select="color" name="color" id="catColor">
-                            
+                        <div>
+                            <select data-select="gender" name="gender" id="gender" type="checkbox">
+                                <option data-gender="" value="">Gender</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select data-select="category" name="category" id="category" type="checkbox">
+                                <option data-category="" value="">Category</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select data-select="sizes" name="sizes" id="sizes" type="checkbox">
+                                <option value="">Size</option>
+                            </select>
+                        </div>
+                        <div>
+                            <h3>Color</h3>
+                            <div class="grid grid-cols-8 gap-2" data-select="color" name="color" id="catColor">
+
+                            </div>
                         </div>
                         <!-- <select data-select="color" name="color" id="color" multiple>
                             <option value="">Color</option>
@@ -127,10 +139,12 @@
                                 <div
                                     class="product-image md:h-60 md:w-50 xl:h-90 xl:w-80 2xl:h-100 2xl:w-80 overflow-hidden rounded-2xl mb-3">
                                     <a data-page="singleproduct">
-                                        <img class="w-full h-full object-cover" src="images/kids_backpack.jpg" />
+                                        <img class="w-full h-full object-cover hover:cursor-pointer"
+                                            src="images/kids_backpack.jpg" />
                                     </a>
                                 </div>
-                                <div data-page="singleproduct" class="product-name font-semibold">Name</div>
+                                <div data-page="singleproduct" class="product-name font-semibold hover:cursor-pointer">
+                                    Name</div>
                                 <div class="product-price font-mono">$Price</div>
                                 <button class="add-to-cart-btn" data-id="3" data-name="Parasite" data-price="24.99">Add
                                     to Cart</button>
@@ -214,11 +228,12 @@
                     <template id="relatedTemplate">
                         <div class="flex flex-col max-w-full overflow-hidden">
                             <div>
-                                <img class="product-image overflow-hidden rounded-2xl mb-3" />
+                                <img class="product-image overflow-hidden rounded-2xl mb-3 hover:cursor-pointer" />
                             </div>
                             <div class="flex justify-between">
                                 <div class="flex-col">
-                                    <div data-page="singleproduct" class="product-name font-semibold">Name</div>
+                                    <div data-page="singleproduct"
+                                        class="product-name font-semibold hover:cursor-pointer">Name</div>
                                     <div class="product-price font-mono">$Price</div>
                                 </div>
                                 <div
@@ -234,7 +249,7 @@
             <div>
                 <article id="shoppingcart">
                     <h1 class="text-2xl font-semibold text-center">Shopping Cart</h1>
-                    <div class="flex flex-col h-[70vh] p-5">
+                    <div class="flex flex-col h-[80vh] p-5 pb-5">
                         <div class="flex-1 flex-col overflow-y-auto">
                             <div class="col-span-2 grid grid-cols-[35%_13%_13%_13%_13%_13%] font-semibold ">
                                 <div>Items</div>
@@ -247,45 +262,54 @@
                             <div id="shoppingCartGrid" class="col-span-2 grid grid-cols-[35%_13%_13%_13%_13%_13%]">
                             </div>
                         </div>
-                        <div class="flex justify-between">
-                            <div class="flex flex-col gap-5 border-1">
+                        <form id="checkoutForm" class="flex justify-between">
+                            <div class="flex flex-col gap-5 border-1 w-[20%] bg-white p-5">
                                 <h3>Shipping</h3>
-                                <select id="Shipping">
-                                    <option id="0">Shipping Type</option>
-                                    <option id="1">Standard</option>
-                                    <option id="2">Express</option>
-                                    <option id="3">Priority</option>
+                                <select id="shipping">
+                                    <option value="0">Shipping Type</option>
+                                    <option value="1">Standard</option>
+                                    <option value="2">Express</option>
+                                    <option value="3">Priority</option>
                                 </select>
-                                <select id="Destination">
-                                    <option id="0">Destination</option>
-                                    <option id="1">Canada</option>
-                                    <option id="2">USA</option>
-                                    <option id="3">International</option>
+                                <select id="destination">
+                                    <option value="0">Destination</option>
+                                    <option value="1">Canada</option>
+                                    <option value="2">USA</option>
+                                    <option value="3">International</option>
                                 </select>
                             </div>
-                            <div class="grid grid-cols-2 gap-5 gap-x-60 mr-[10vw] border-1 p-5">
-                                <div>Merchandise</div>
-                                <div id="merchAmount">$ 100</div>
-                                <div>Shipping</div>
-                                <div id="shippingAmount">$</div>
-                                <div>Tax</div>
-                                <div id="taxAmount">$</div>
-                                <div class="font-bold">Total</div>
-                                <div id="totalAmount">$</div>
+                            <div class="mr-[10vw] pt-5">
+                                <div class="grid grid-cols-2 gap-5 gap-x-60 border-1 p-5 bg-white">
+                                    <div>Merchandise</div>
+                                    <div id="merchAmount"></div>
+                                    <div>Shipping</div>
+                                    <div id="shippingAmount"></div>
+                                    <div>Tax</div>
+                                    <div id="taxAmount"></div>
+                                    <div class="font-bold">Total</div>
+                                    <div id="totalAmount"></div>
+                                </div>
+                                <div class="flex justify-center">
+                                    <button type="submit" id="checkout">Checkout</button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
-                    <template id="cartItemTemplate">
+                    <template id="cartItemTemplate" class="flex items-center justify-center">
                         <div class="flex gap-5">
-                            <div class="product-remove flex gap-2 font-semibold text-gray-400">-</div>
-                            <div class="flex h-[5vh] aspect-square"><img src="" class="product-image"></div>
-                            <div class="product-title"></div>
+                            <div id="product-remove" class="flex items-center gap-2 font-semibold text-gray-400 hover:cursor-pointer">-</div>
+                            <div class="flex items-center h-[10vh] aspect-square"><img src="" class="product-image"></div>
+                            <div class="flex items-center product-title"></div>
                         </div>
-                        <div class="product-color text-md pb-1 flex gap-2"></div>
-                        <div class="product-size flex gap-2 font-semibold text-gray-400"></div>
-                        <div class="product-price"></div>
-                        <div class="product-quantity"></div>
-                        <div class="product-subtotal"></div>
+                        <div class="flex items-center product-color h-6 aspect-square border-1"></div>
+                        <div class="flex items-center product-size gap-2 font-semibold text-gray-400"></div>
+                        <div class="flex items-center product-price"></div>
+                        <div class="flex items-center">
+                            <div id="removeProduct" class="hover:cursor-pointer">-</div>
+                            <div class="product-quantity p-2"></div>
+                            <div id="addProduct" class="hover:cursor-pointer">+</div>
+                        </div>
+                        <div class="flex items-center product-subtotal"></div>
                     </template>
                 </article>
             </div>
@@ -293,20 +317,20 @@
             <dialog id="about" data-open="0"
                 class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg backdrop:bg-black/30">
                 <div id="onlyDialog">
-                <button id="aboutClose" class="absolute top-0 right-0 p-2 text-black">✖</button>
-                <h1 class="font-bold text-center mt-5">About</h1>
-                <div class="mx-auto max-w-lg md:max-w-[40%] py-4">
-                    <div class="text-center">
-                        <p class="pb-2">My name is Andrew Krawiec. I am a 3rd year student in Computer Information
-                            Systems. My hobbies include skiing and board games.</p>
-                        <p class="pb-2">This assignment is to demonstrate my profficiency with JavaScript.</p>
-                        <p class="pb-2">The coding languages I am using include JavaScript, HTML and TailWindCSS.
-                        </p>
-                        <p>The technologies I am using include VSCode, GitHub, and git.</p>
-                        <p class="p-4"><a class="text-link underline"
-                                href="https://github.com/AndrewTries/COMP_3512-Assignment2">github link</a></p>
+                    <button id="aboutClose" class="absolute top-0 right-0 p-2 text-black">✖</button>
+                    <h1 class="font-bold text-center mt-5">About</h1>
+                    <div class="mx-auto max-w-lg md:max-w-[40%] py-4">
+                        <div class="text-center">
+                            <p class="pb-2">My name is Andrew Krawiec. I am a 3rd year student in Computer Information
+                                Systems. My hobbies include skiing and board games.</p>
+                            <p class="pb-2">This assignment is to demonstrate my profficiency with JavaScript.</p>
+                            <p class="pb-2">The coding languages I am using include JavaScript, HTML and TailWindCSS.
+                            </p>
+                            <p>The technologies I am using include VSCode, GitHub, and git.</p>
+                            <p class="p-4"><a class="text-link underline"
+                                    href="https://github.com/AndrewTries/COMP_3512-Assignment2">github link</a></p>
+                        </div>
                     </div>
-                </div>
                 </div>
             </dialog>
         </main>

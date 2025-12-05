@@ -2,6 +2,7 @@
 import { getFeatureProducts } from './home.js'
 import { getProducts, populateDepartements, sortOrder, resetFilter, setProducts } from './productSearch.js'
 import { makeProduct } from './product.js';
+import { writeCartPage, cartResults, clearCart } from './shoppingcart.js';
 export { products, useGoToPage, goToPage };
 
 let products = [];
@@ -47,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         populateDepartements();
         sortOrder();
         resetFilter();
+        writeCartPage();
     })
 
     const navButtons = document.querySelectorAll('[data-page]');
@@ -67,11 +69,4 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkIfFetched() {
         return localStorage.products !== null ? true : false;
     }
-}
-
-);
-
-
-async function getSingleProduct() {
-
-}
+});
