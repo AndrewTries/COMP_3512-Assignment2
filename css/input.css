@@ -8,31 +8,59 @@
   --color-background: #CCFBF1;
   --color-secondary: #2dd4bf;
   --color-nav: #2dd4bf;
+  --color-nav-text: #fff;
   --color-primary: #1d293d;
   --color-box: #f0fdfa;
-  --color-card: #5eead4;
+  --color-card: #fff;
   --color-card-title: #fff;
+  --color-card-text: #334155;
   --color-card-text-hover: #ccfbf1;
   --color-light-border: #d1d5db;
   --color-link: #0ea5e9;
+  --color-text: #000000;
+  --color-button-bg: #5eead4;
+  --color-button-primary: #1d293d;
+  --color-card-button-hover: #a5f3fc;
 }
 
+
 .dark {
-  --color-background:#1d293d;
+  --color-background: #1d293d;
   --color-primary: #fff;
+  --color-nav-text: #fff;
+  --color-text: #fff;
+  --color-card: #475569;
+  --color-card-text: #fff;
+  --color-button-bg: #fff;
+  --color-button-primary: #1d293d;
+  --color-card-button-hover: #475569;
 }
 
 .section-box {
   @apply bg-box px-3 border-1 rounded-md;
 }
 
+.card-hover {
+  @apply hover:-translate-y-1 transition-all duration-200 hover:shadow-lg;
+}
+
+.card-button {
+  @apply flex items-center justify-center text-xl font-bold rounded-lg 
+  aspect-square h-6 w-6 xl:h-8 xl:w-8 bg-button-bg text-button-primary border border-button-primary hover:bg-card-button-hover;
+}
+
 @layer theme, base, components, utilities;
 
 @layer base {
-    h3 {
-        @apply font-bold;
-    }
-    button {
-      @apply hover:cursor-pointer
-    }
+  h3 {
+    @apply font-bold;
+  }
+
+  button {
+    @apply hover:cursor-pointer
+  }
+
+  option {
+    @apply hover:dark:bg-card hover:cursor-pointer;
+  }
 }

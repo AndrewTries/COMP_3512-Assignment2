@@ -40,7 +40,14 @@ function makeProduct(product) {
         sizeIcon.textContent = `${s}`;
         sizeIcon.classList.add('h-8', 'border-1', 'border-black', 'text-center', 'justify-center', 'hover:cursor-pointer');
         s !== 'One Size' ? sizeIcon.classList.add('aspect-square') : sizeIcon.classList.add('px-1');
-        sizeIcon.addEventListener("click", () => addToCart.setAttribute('data-size', s));
+
+        sizeIcon.addEventListener("click", () => {
+            addToCart.setAttribute('data-size', s)
+            productSize.querySelectorAll('span').forEach(s => s.classList.remove('border-3'));
+            sizeIcon.classList.toggle('border-3');
+        });
+        if(productSize.querySelector('span')) 
+            productSize.querySelector('span').classList.add('border-3');
         productSize.appendChild(sizeIcon);
     })
 
@@ -49,7 +56,12 @@ function makeProduct(product) {
         const colorIcon = document.createElement('span');
         colorIcon.style.backgroundColor = `${c.hex}`;
         colorIcon.classList.add('h-8', 'aspect-square', 'border-1', 'hover:cursor-pointer');
-        colorIcon.addEventListener("click", () => addToCart.setAttribute('data-color', `${c.hex}`));
+        colorIcon.addEventListener("click", () => {
+            addToCart.setAttribute('data-color', `${c.hex}`)
+            productColor.querySelectorAll('span').forEach(s => s.classList.remove('border-3'));
+            colorIcon.classList.toggle('border-3');
+        });
+        if(productColor.querySelector('span')) productColor.querySelector('span').classList.add('border-3');
         productColor.appendChild(colorIcon);
     })
     const productQuantity = productClone.querySelector("#quantity");
@@ -105,10 +117,12 @@ function attachRelated(product, parentTemplate) {
 
     // relatedPrice.forEach(p => console.log(p.price, p.name));
 
-    const relatedProducts = [...relatedCategory, ...relatedPrice];
+    // const relatedProducts = [...relatedCategory, ...relatedPrice];
     const prodCardTemplate = document.querySelector('#relatedTemplate');
-    const productPage = parentTemplate.querySelector('#releated-products');
-    makeProductCard(prodCardTemplate, productPage, relatedProducts.slice(0, 4));
+    const relatedCategoryList = parentTemplate.querySelector('#relatedCategoryProducts');
+    const relatedPriceList = parentTemplate.querySelector('#relatedPriceProducts');
+    makeProductCard(prodCardTemplate, relatedCategoryList, relatedCategory.slice(0,2));
+    makeProductCard(prodCardTemplate, relatedPriceList, relatedPrice.slice(0,2));
 }
 
 

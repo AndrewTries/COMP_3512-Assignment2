@@ -10,13 +10,14 @@
 
 
 <body>
-    <div class="flex min-h-screen w-full flex-col bg-background">
+    <div class="flex min-h-screen w-full flex-col text-text bg-background">
         <header class="sticky top-0 z-1">
             <div
-                class="grid grid-cols-[5%_20%_65%_10%] items-center justify-between bg-nav px-6 py-2 text-card-title dark:bg-slate-900">
+                class="grid grid-cols-[5%_15%_10%_60%_10%] items-center justify-between bg-nav px-6 py-2 text-nav-text dark:bg-slate-900">
                 <a href="index.html" data-page="home"><img src="images/hollow_logo.png"
                         class="rounded-full w-10 h-10"></a>
                 <h1 class="text-xl font-bold" data-page="home"><a href="index.html">Portfolio Project</a></h1>
+                <button onclick="document.documentElement.classList.toggle('dark')" class="">Switch Color</button>
                 <nav class="flex gap-5 justify-end">
                     <a data-page="home" href="#">Home</a>
                     <a data-page="browse" href="#">Browse</a>
@@ -52,7 +53,7 @@
                             </figcaption>
                             <div data-page="browse">
                                 <button
-                                    class="browsePage text-md font-mono font-semibold shadow-lg border-gray-400 border-1 py-2 px-6 bg-white">
+                                    class="browsePage text-md font-mono font-semibold shadow-lg border-gray-400 border-1 py-2 px-6 text-black bg-white">
                                     BROWSE PRODUCTS
                                 </button>
                             </div>
@@ -66,23 +67,33 @@
                         <h2 class=" mt-15 mb-2 text-4xl font-semibold">Featured Products</h2>
                         <p>Staff picks of our latest products.</p>
                     </div>
-                    <div class="products-grid grid md:grid-cols-2 lg:grid-cols-3 grid-gap-5 m-5" id="productsGrid">
+                    <div class="products-grid grid md:grid-cols-2 lg:grid-cols-3 grid-gap-5" id="productsGrid">
 
                     </div>
                     <template id="featuredProductCard">
-                        <div class="flex items-center justify-center flex-col text-slate-700">
+                        <div class="p-3">
                             <div
-                                class="product-image md:h-60 md:w-50 lg:h-80 lg:w-70 xl:h-90 xl:w-100 2xl:h-100 2xl:w-120 overflow-hidden rounded-2xl mb-3">
-                                <a data-page="singleproduct">
-                                    <img class="w-full h-full object-cover hover:cursor-pointer"
-                                        src="images/kids_backpack.jpg" />
-                                </a>
+                                class="flex flex-col max-w-full items-center text-card-text bg-card card-hover  p-3 xl:p-5 rounded-lg shadow-sm">
+                                <div class="product-image overflow-hidden rounded-lg mb-3">
+                                    <a data-page="singleproduct">
+                                        <img class=" h-full object-cover hover:cursor-pointer"
+                                            src="images/kids_backpack.jpg" />
+                                    </a>
+                                </div>
+                                <div class="inline-flex w-full justify-between">
+                                    <div class="flex-col">
+                                        <div data-page="singleproduct"
+                                            class="product-name font-semibold hover:cursor-pointer">Name</div>
+                                        <div class="product-price font-semibold font-mono">$Price</div>
+                                    </div>
+                                    <div class="flex items-center justify-center">
+                                        <button data-page="shoppingcart" title="Add item to shopping cart"
+                                            class="card-button add-to-cart-btn">
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div data-page="singleproduct" class="product-name font-semibold hover:cursor-pointer">Name
-                            </div>
-                            <div class="product-price font-mono">$Price</div>
-                            <button class="add-to-cart-btn" data-id="3" data-name="Parasite" data-price="24.99">Add
-                                to Cart</button>
                         </div>
                     </template>
                 </article>
@@ -93,22 +104,38 @@
                     <section id="filter" class="flex flex-col sticky gap-10 font-semibold top-[60px] self-start">
                         <h2 class="text-2xl">Departments</h2>
                         <div>
-                            <select data-select="gender" name="gender" id="gender" type="checkbox">
-                                <option data-gender="" value="">Gender</option>
-                            </select>
+                            <!-- <select data-select="gender" name="gender" id="gender" type="checkbox"
+                            class="text-text appearance-none">
+                                <option value="">Gender</option>
+                            </select> -->
+                            <button id="gender-list">Gender</button>
+                            <ul data-select="gender" name="gender" id="gender" text-text
+                                class="invisible hover:cursor-pointer">
+                                <li value="">Gender</li>
+                            </ul>
                         </div>
                         <div>
-                            <select data-select="category" name="category" id="category" type="checkbox">
+                            <!-- <select data-select="category" name="category" id="category" type="checkbox">
                                 <option data-category="" value="">Category</option>
-                            </select>
+                            </select> -->
+                            <span id="category-list">Category</span>
+                            <ul data-select="category" name="category" id="category" text-text>
+                                <li value="">Category</li>
+                                <li value="1">Hidden</li>
+                            </ul>
                         </div>
                         <div>
-                            <select data-select="sizes" name="sizes" id="sizes" type="checkbox">
+                            <!-- <select data-select="sizes" name="sizes" id="sizes" type="checkbox">
                                 <option value="">Size</option>
-                            </select>
+                            </select> -->
+                            <span id="sizes-list">Size</span>
+                            <ul data-select="sizes" name="sizes" id="sizes" type="checkbox" text-text>
+                                <li value="">Size</li>
+                            </ul>
                         </div>
                         <div>
                             <h3>Color</h3>
+                            <span id="color-list">Color</span>
                             <div class="grid grid-cols-8 gap-2" data-select="color" name="color" id="catColor">
 
                             </div>
@@ -126,30 +153,44 @@
                                 <option value="price">Price</option>
                                 <option value="category">Category</option>
                             </select>
-                            <button class="justify-end snap-end bg-white rounded-xl hover:bg-gray-600"
+                            <button
+                                class="justify-end snap-end bg-button-bg text-button-primary border border-button-primary rounded-md px-2"
                                 id="resetFilters">Reset Filters</button>
                         </div>
                         <p>Applied Filters:</p>
-                        <div class="products-grid grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 grid-gap-5 m-5"
-                            id="productsGrid">
-
+                        <div id="productsGrid" class="products-grid grid gap-5 m-5 
+                        md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
                         </div>
                         <template id="browseProductCard">
-                            <div class="flex items-center justify-center flex-col text-slate-700">
-                                <div
-                                    class="product-image md:h-60 md:w-50 xl:h-90 xl:w-80 2xl:h-100 2xl:w-80 overflow-hidden rounded-2xl mb-3">
+                            <div
+                                class="flex flex-col bg-card text-card-text card-hover shadow-sm rounded-lg overflow-hidden h-[50vh]">
+
+                                <!-- Product image -->
+                                <div class="product-image h-[85%]">
                                     <a data-page="singleproduct">
-                                        <img class="w-full h-full object-cover hover:cursor-pointer"
-                                            src="images/kids_backpack.jpg" />
+                                        <img src="images/kids_backpack.jpg"
+                                            class="w-full h-full object-cover cursor-pointer" />
                                     </a>
                                 </div>
-                                <div data-page="singleproduct" class="product-name font-semibold hover:cursor-pointer">
-                                    Name</div>
-                                <div class="product-price font-mono">$Price</div>
-                                <button class="add-to-cart-btn" data-id="3" data-name="Parasite" data-price="24.99">Add
-                                    to Cart</button>
+
+                                <!-- Bottom info area -->
+                                <div class="inline-flex w-full justify-between p-3">
+                                    <div class="flex-col">
+                                        <div data-page="singleproduct"
+                                            class="product-name font-semibold hover:cursor-pointer">Name</div>
+                                        <div class="product-price font-semibold font-mono">$Price</div>
+                                    </div>
+                                    <div class="flex items-center justify-center">
+                                        <button data-page="shoppingcart" title="Add item to shopping cart"
+                                            class="card-button add-to-cart-btn">
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
+
                             </div>
                         </template>
+
                     </section>
                 </article>
             </div>
@@ -158,7 +199,7 @@
                     <div id="productPage" class="min-h-screen">
 
                     </div>
-                    <template id="singleProductTemplate" class="py-5 px-5 items-center">
+                    <template id="singleProductTemplate" class="p-5 items-center">
                         <div class="flex flex-col py-5 px-5 gap-5 mx-auto w-full max-w-7xl">
                             <div id="breadcrumbs">
                                 <ul>
@@ -168,16 +209,16 @@
                                     <li data-page="singleproduct"></li>
                                 </ul>
                             </div>
-                            <div class="flex">
-                                <div class="flex flex-col w-[50%] gap-5 pr-5">
+                            <div class="flex flex-col md:flex-row gap-5">
+                                <div class="flex flex-col md:w-[50%] gap-y-5">
                                     <img class="product-image object-cover col-span-2 " />
                                     <div class="flex gap-5">
                                         <img class="product-image object-cover w-[25%] aspect-square" />
                                         <img class="product-image object-cover w-[25%] aspect-square" />
                                     </div>
                                 </div>
-                                <div class="w-[50%]">
-                                    <div class="flex flex-col gap-4">
+                                <div class="md:w-[50%] bg-card p-4 rounded-2xl">
+                                    <div class="flex flex-col gap-4 h-full">
                                         <div class="product-name text-2xl font-bold">Name</div>
                                         <div class="product-price font-mono text-xl">$Price</div>
                                         <div>
@@ -188,7 +229,7 @@
                                             <h3 class="text-md">Material</h3>
                                             <p class="product-material pl-2"></p>
                                         </div>
-                                        <form class="product-form flex flex-col gap-4">
+                                        <form class="product-form flex flex-col gap-4 flex-grow">
                                             <div class="flex gap-4">
                                                 <label for="quantity"
                                                     class="product-quantity text-md font-bold">Quantity</label>
@@ -196,50 +237,63 @@
                                                     class="border-1">
                                             </div>
 
-                                            <div class="text-md font-bold">
-                                                <h3 class="text-md pb-1">Sizes</h3>
-                                                <div class="product-size flex gap-2 font-semibold text-gray-400">
+                                            <div class="grid grid-cols-2 text-md font-bold">
+                                                <div class="flex flex-col">
+                                                    <h3 class="text-md pb-1">Sizes</h3>
+                                                    <div class="flex product-size gap-2 font-semibold text-gray-400">
+                                                    </div>
                                                 </div>
-                                                <h3 class="text-md pb-1">Colors</h3>
-                                                <div class="product-color flex gap-2">
+                                                <div class="flex flex-col">
+                                                    <h3 class="text-md pb-1">Colors</h3>
+                                                    <div class="product-color flex gap-2">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <button type="submit"
-                                                class="add-to-cart-btn text-center flex-wrap justify-center font-semibold rounded-lg h-fit w-fit p-2 bg-gray-200 border-1 border-slate-800"
-                                                data-page="shoppingcart" data-id="" data-name="" data-price=""
-                                                data-quantity="1">
-                                                + Add to Cart</button>
+                                            <div class="flex items-end justify-center mt-auto">
+                                                <button type="submit"
+                                                    class="add-to-cart-btn text-center flex-wrap justify-center font-semibold rounded-4xl h-fit w-2/3 p-2 
+                                                bg-button-bg text-button-primary border border-button-primary hover:bg-card-button-hover"
+                                                    data-page="shoppingcart" data-id="" data-name="" data-price=""
+                                                    data-quantity="1">
+                                                    + Add to Cart</button>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                             <h2 class="text-2xl font-bold text-center border-t-2 border-t-gray-500 mt-3 pt-3">
                                 Related Products</h2>
-                            <div class="grid grid-cols-2 text-center font-semibold">
-                                <div id="relatedCategory">Products in category </div>
-                                <div>Products in the same price range</div>
+                            <div id="releated-products"
+                                class="flex flex-col md:grid md:grid-cols-2 text-center font-semibold gap-5">
+                                <div class="flex flex-col">
+                                    <div id="relatedCategory" class="pb-2">Products in category </div>
+                                    <div id="relatedCategoryProducts" class="flex gap-5"></div>
+                                </div>
+                                <div class="flex flex-col">
+                                    <div class="pb-2">Products in the same price range</div>
+                                    <div id="relatedPriceProducts" class="flex gap-5"></div>
+                                </div>
                             </div>
-                            <div id="releated-products" class="flex gap-5">
 
-                            </div>
 
                         </div>
                     </template>
                     <template id="relatedTemplate">
-                        <div class="flex flex-col max-w-full overflow-hidden">
+                        <div class="flex flex-col max-w-full overflow-hidden card-hover">
                             <div>
                                 <img class="product-image overflow-hidden rounded-2xl mb-3 hover:cursor-pointer" />
                             </div>
-                            <div class="flex justify-between">
-                                <div class="flex-col">
+                            <div class="inline-flex w-full justify-between px-2">
+                                <div class="flex-col justify-items-start">
                                     <div data-page="singleproduct"
                                         class="product-name font-semibold hover:cursor-pointer">Name</div>
-                                    <div class="product-price font-mono">$Price</div>
+                                    <div class="product-price font-semibold font-mono ">$Price</div>
                                 </div>
-                                <div
-                                    class="text-lg font-bold flex rounded-lg h-fit aspect-square bg-gray-500 border-1 px-2">
-                                    <button data-page="shoppingcart"
-                                        class="add-to-cart-btn text-center flex-wrap justify-center">+</button>
+                                <div class="flex items-center justify-center">
+                                    <button data-page="shoppingcart" title="Add item to shopping cart"
+                                        class="card-button add-to-cart-btn">
+                                        +
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -249,9 +303,13 @@
             <div>
                 <article id="shoppingcart">
                     <h1 class="text-2xl font-semibold text-center">Shopping Cart</h1>
-                    <div class="flex flex-col h-[80vh] p-5 pb-5">
+                    <div class="shoppingcart-hide flex flex-col items-center justify-items-center flex-grow">
+                        <h3 data-page="browse" href="#">You don't have anything in your cart</h3>
+                        <p id="leave-cart" class="text-link underline hover:cursor-pointer">Start Shopping</p>
+                    </div>
+                    <div id="shoppingcart-hide" class="shoppingcart-hide flex flex-col h-[80vh] p-5 pb-5 invisible">
                         <div class="flex-1 flex-col overflow-y-auto">
-                            <div class="col-span-2 grid grid-cols-[35%_13%_13%_13%_13%_13%] font-semibold ">
+                            <div class="grid grid-cols-[35%_13%_13%_13%_13%_13%] sticky top-0 bg-background font-semibold text-center mb-2">
                                 <div>Items</div>
                                 <div>Color</div>
                                 <div>Size</div>
@@ -259,11 +317,11 @@
                                 <div>Quantity</div>
                                 <div>Subtotal</div>
                             </div>
-                            <div id="shoppingCartGrid" class="col-span-2 grid grid-cols-[35%_13%_13%_13%_13%_13%]">
+                            <div id="shoppingCartGrid" class="flex flex-col gap-3">
                             </div>
                         </div>
                         <form id="checkoutForm" class="flex justify-between">
-                            <div class="flex flex-col gap-5 border-1 w-[20%] bg-white p-5">
+                            <div class="flex flex-col gap-5 border-1 w-[20%] m-5 bg-card text-text p-5">
                                 <h3>Shipping</h3>
                                 <select id="shipping">
                                     <option value="0">Shipping Type</option>
@@ -279,7 +337,7 @@
                                 </select>
                             </div>
                             <div class="mr-[10vw] pt-5">
-                                <div class="grid grid-cols-2 gap-5 gap-x-60 border-1 p-5 bg-white">
+                                <div class="grid grid-cols-2 gap-5 gap-x-60 border-1 p-5 bg-card text-text">
                                     <div>Merchandise</div>
                                     <div id="merchAmount"></div>
                                     <div>Shipping</div>
@@ -295,29 +353,36 @@
                             </div>
                         </form>
                     </div>
-                    <template id="cartItemTemplate" class="flex items-center justify-center">
-                        <div class="flex gap-5">
-                            <div id="product-remove" class="flex items-center gap-2 font-semibold text-gray-400 hover:cursor-pointer">-</div>
-                            <div class="flex items-center h-[10vh] aspect-square"><img src="" class="product-image"></div>
-                            <div class="flex items-center product-title"></div>
+                    <template id="cartItemTemplate">
+                        <div data-cart-id=""
+                            class="cart-id grid grid-cols-[35%_13%_13%_13%_13%_13%] bg-card place-items-center rounded-2xl card-hover">
+                            <div class="flex items-center justify-center gap-5">
+                                <div id="product-remove">
+                                    <div class="flex w-full aspect-[3/2] font-bold text-button-
+                                    primary h-5 items-center justify-center border-1 hover:cursor-pointer">-</div>
+                                </div>
+                                <div data-page="singleproduct" class="flex items-center hover:cursor-pointer h-[10vh] aspect-square"><img src="" class="product-image">
+                                </div>
+                                <div data-page="singleproduct" class="flex items-center hover:cursor-pointer product-title"></div>
+                            </div>
+                            <div class="flex product-color h-6 aspect-square border-1"></div>
+                            <div class="flex product-size gap-2 font-semibold text-text"></div>
+                            <div class="flex product-price"></div>
+                            <div class="flex items-center">
+                                <div id="removeCount" class="hover:cursor-pointer text-xl">-</div>
+                                <div class="product-quantity p-2"></div>
+                                <div id="addCount" class="hover:cursor-pointer text-xl">+</div>
+                            </div>
+                            <div class="flex items-center product-subtotal"></div>
                         </div>
-                        <div class="flex items-center product-color h-6 aspect-square border-1"></div>
-                        <div class="flex items-center product-size gap-2 font-semibold text-gray-400"></div>
-                        <div class="flex items-center product-price"></div>
-                        <div class="flex items-center">
-                            <div id="removeProduct" class="hover:cursor-pointer">-</div>
-                            <div class="product-quantity p-2"></div>
-                            <div id="addProduct" class="hover:cursor-pointer">+</div>
-                        </div>
-                        <div class="flex items-center product-subtotal"></div>
                     </template>
                 </article>
             </div>
 
             <dialog id="about" data-open="0"
-                class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg backdrop:bg-black/30">
+                class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-card text-text backdrop:bg-black/30">
                 <div id="onlyDialog">
-                    <button id="aboutClose" class="absolute top-0 right-0 p-2 text-black">✖</button>
+                    <button id="aboutClose" class="absolute top-0 right-0 p-2">✖</button>
                     <h1 class="font-bold text-center mt-5">About</h1>
                     <div class="mx-auto max-w-lg md:max-w-[40%] py-4">
                         <div class="text-center">

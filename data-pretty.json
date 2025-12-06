@@ -11,6 +11,14 @@
       {
         "name": "Ivory",
         "hex": "#FFFFF0"
+      },
+      {
+        "name": "Lavender",
+        "hex": "#E6E6FA"
+      },
+      {
+        "name": "Cream",
+        "hex": "#FFFDD0"
       }
     ],
     "sizes": [

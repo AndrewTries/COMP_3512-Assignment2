@@ -1,3 +1,5 @@
+import { goToPage, products } from "./index.js";
+import { makeProduct } from "./product.js";
 export { ShoppingCartProduct, writeCartPage, cartResults, clearCart }
 // import { Interface } from "readline";
 
@@ -14,6 +16,7 @@ export { ShoppingCartProduct, writeCartPage, cartResults, clearCart }
 const shoppingCartProducts = [];
 class ShoppingCartProduct {
     constructor(product, color, size, quanity) {
+        this.id = product.id;
         this.name = product.name;
         this.image = "images/kids_backpack.jpg";
         this.color = color;
@@ -28,30 +31,80 @@ class ShoppingCartProduct {
 
 export { addToShoppingCart }
 function addToShoppingCart(cartProduct) {
+    if (productInCart(cartProduct)) return;
+
     shoppingCartProducts.push(cartProduct);
-    console.log(shoppingCartProducts.length);
+
     const prodShopTemplate = document.querySelector('#cartItemTemplate');
     const productPage = document.querySelector('#shoppingCartGrid');
     const productClone = prodShopTemplate.content.cloneNode(true);
 
-    productClone.querySelector('#product-remove').addEventListener('click', ()=> removeProduct(cartProduct));
-    productClone.querySelector('.product-image').src = cartProduct.image;
-    productClone.querySelector('.product-title').textContent = cartProduct.name;
+    const dataSet = productClone.querySelector('.cart-id');
+    dataSet.setAttribute('data-cart-group', cartProduct.id + cartProduct.size + cartProduct.color);
+    dataSet.setAttribute('data-cart-id', cartProduct.id);
+    dataSet.setAttribute('data-cart-size', cartProduct.size);
+    dataSet.setAttribute('data-cart-color', cartProduct.color);
+
+    productClone.querySelector('#product-remove').addEventListener('click', () => removeProduct(cartProduct));
+    const img = productClone.querySelector('.product-image');
+    const title = productClone.querySelector('.product-title');
     productClone.querySelector('.product-color').style.backgroundColor = cartProduct.color;
     productClone.querySelector('.product-size').textContent = cartProduct.size;
     productClone.querySelector('.product-price').textContent = currency(cartProduct.price);
     productClone.querySelector('.product-quantity').textContent = cartProduct.quanity;
     productClone.querySelector('.product-subtotal').textContent = currency(cartProduct.subtotal());
 
-    const visible = document.querySelector('#checkoutForm');
-    if (visible.classList.contains('invisible')) visible.classList.toggle('invisible');
+    const product = products.find(p => p.id === cartProduct.id);
+    img.src = cartProduct.image;
+    img.addEventListener("click", () => {
+        makeProduct(product);
+        goToPage('singleproduct');
+    });
+
+    title.textContent = cartProduct.name;
+    title.addEventListener("click", () => {
+        makeProduct(product)
+        goToPage('singleproduct');
+    });
+
+    const emptyCart = document.querySelector('.shoppingcart-hide');
+    if (!emptyCart.classList.contains('hidden'))
+        emptyCart.classList.toggle('hidden');
+
+    const visible = document.querySelector('#shoppingcart-hide');
+    if (visible.classList.contains('invisible'))
+        visible.classList.toggle('invisible');
+
     productPage.appendChild(productClone);
     cartResults();
 }
 
+function productInCart(cartProduct) {
+    const prodInCart = shoppingCartProducts.find(c => ((c.id === cartProduct.id) && (c.size === cartProduct.size) && (c.color === cartProduct.color)));
+    if (prodInCart) {
+        console.log(prodInCart)
+        // console.log('PcartQ',prodInCart.quanity);
+        // console.log('cartQ',cartProduct.quanity);
+        prodInCart.quanity++;
+        // Number(prodInCart.quanity) += Number(cartProduct.quanity);
+        const cart_id = document.querySelector(`[data-cart-group="${cartProduct.id + cartProduct.size + cartProduct.color}"]`);
+        cart_id.querySelector('.product-quantity').textContent = prodInCart.quanity;
+        cart_id.querySelector('.product-subtotal').textContent = currency(prodInCart.subtotal());
+        return true;
+    }
+}
+
 function removeProduct(cartProduct) {
-    const productToRemove = shoppingCartProducts.find(c => c === cartProduct)
-    shoppingCartProducts.splice(productToRemove)
+    if (!shoppingCartProducts.find(c => c === cartProduct)) return;
+    const cart_id = document.querySelector(`[data-cart-group="${cartProduct.id + cartProduct.size + cartProduct.color}"]`);
+    cart_id.remove();
+    const productToRemove = shoppingCartProducts.indexOf(cartProduct)
+    shoppingCartProducts.splice(productToRemove, 1);
+    const cartCount = document.querySelector('.cart-count');
+    cartCount.dataset.cartcount--;
+    cartCount.textContent = cartCount.dataset.cartcount;
+    shoppingCartProducts.length == 0 ? clearCart() : cartResults();
+    console.log(shoppingCartProducts.length)
 }
 
 const currency = function (num) {
@@ -59,11 +112,13 @@ const currency = function (num) {
 }
 
 function writeCartPage() {
+    document.querySelector('#leave-cart').addEventListener('click', () => {
+        goToPage('browse');
+    })
     const cartCount = document.querySelector('.cart-count');
-    let count = 0;
     // shoppingCartProducts.forEach(scp => count += Number(scp.quanity));
     cartCount.dataset.cartcount = 0;
-    cartCount.textContent = count;
+    cartCount.textContent = 0;
     const form = document.querySelector('#checkoutForm');
     form.querySelector('#shipping').addEventListener('change', () => {
         console.log('shippingtype');
@@ -88,7 +143,7 @@ function cartResults() {
     let merchAmount = 0;
     let shippingAmount = 0;
     let taxAmount = 0;
-    if (shoppingCartProducts.length > 0) 
+    if (shoppingCartProducts.length > 0)
         shoppingCartProducts.forEach(scp => merchAmount += scp.subtotal());
     if (merchAmount <= 500) shippingAmount = calculateShippingCost();
     if (document.querySelector('#destination').value == 1) taxAmount = merchAmount * 0.05;
@@ -99,8 +154,8 @@ function cartResults() {
 }
 
 function clearCart() {
-    if (shoppingCartProducts.length === 0) return;
-    document.querySelector('#checkoutForm').classList.add('invisible');
+    document.querySelector('.shoppingcart-hide').classList.remove('hidden');
+    document.querySelector('#shoppingcart-hide').classList.add('invisible');
     document.querySelector('#shoppingCartGrid').replaceChildren();
     shoppingCartProducts.length = 0;
     writeCartPage();

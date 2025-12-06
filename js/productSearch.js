@@ -29,6 +29,11 @@ async function populateDepartements() {
     });
     selects.forEach(sel => {
         const select = sel.dataset.select;
+        console.log(document.querySelector(`#${select}-list`).textContent)
+        document.querySelector(`#${select}-list`).addEventListener('click', () => {
+            console.log("clicked")
+            sel.classList.toggle('invisible')
+        })
         let options;
         let uniqueOptions;
         if (select === 'sizes') {
@@ -40,7 +45,7 @@ async function populateDepartements() {
             // if(uniqueOptions) console.log(uniqueOptions.forEach(u => console.log(u.hex, " ", u.name)))
         } else options = products.map(product => product[select]);
         if (select !== 'color') uniqueOptions = new Set(options);
-        let selected = document.querySelector(`select#${select}`);
+        let selected = document.querySelector(`ul#${select}`);
 
         let count = {};
         options.forEach(o => count[o] = (count[o] || 0) + 1);
@@ -57,10 +62,10 @@ async function populateDepartements() {
                 catColor.appendChild(colorIcon);
             }
         } else uniqueOptions.forEach(cat => {
-            const opt = document.createElement('option');
+            const opt = document.createElement('li');
             opt.value = cat;
             opt.textContent = `${cat} (${count[cat]})`;
-            opt.classList.add('h-4', 'rounded-sm', 'aspect-square', 'border-1', 'hover:cursor-pointer');
+            opt.classList.add('h-4', 'rounded-sm', 'aspect-square', 'gender-list', 'invisible', 'dark:bg-card', 'border-1');
             opt.classList.add('flex', 'justify-between');
             selected.appendChild(opt);
         })
@@ -74,10 +79,7 @@ async function populateDepartements() {
  * @param {*} products 
  */
 function handleSelectProductChange(e, select) {
-    // console.log("select", select)
-    // console.log(e)
     const selectID = e.target.value;
-    // console.log(selectID);
     const filtered = products.filter(p => p[select] == selectID)
     productList = filtered;
     getProducts(filtered);
