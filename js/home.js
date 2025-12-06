@@ -1,5 +1,5 @@
 import { products } from './index.js';
-import { makeProduct, makeProductCard } from './product.js';
+import { makeProductCard } from './product.js';
 export async function getFeatureProducts() {
     const prodCardTemplate = document.querySelector('#featuredProductCard');
     const productGrid = document.querySelector('.products-grid');

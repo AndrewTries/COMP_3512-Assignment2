@@ -1,5 +1,5 @@
-import { products, useGoToPage } from './index.js';
-import { makeProduct, makeProductCard } from './product.js';
+import { products } from './index.js';
+import { makeProductCard } from './product.js';
 export { getProducts, populateDepartements, sortOrder, resetFilter, setProducts };
 
 let productList = []

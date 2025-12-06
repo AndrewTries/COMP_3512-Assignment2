@@ -1,8 +1,7 @@
 
 import { getFeatureProducts } from './home.js'
-import { getProducts, populateDepartements, sortOrder, resetFilter, setProducts } from './productSearch.js'
-import { makeProduct } from './product.js';
-import { writeCartPage, cartResults, clearCart } from './shoppingcart.js';
+import { populateDepartements, sortOrder, resetFilter, setProducts } from './productSearch.js';
+import { writeCartPage } from './shoppingcart.js';
 export { products, useGoToPage, goToPage };
 
 let products = [];
