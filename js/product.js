@@ -1,6 +1,6 @@
 import { products, useGoToPage, goToPage } from './index.js';
 import { addToShoppingCart, ShoppingCartProduct } from './shoppingcart.js';
-export { makeProduct, makeProductCard, addProductToCart };
+export { makeProduct, makeProductCard };
 
 function makeProduct(product) {
     const prodCardTemplate = document.querySelector('#singleProductTemplate');
@@ -75,12 +75,8 @@ function makeProduct(product) {
 function breadcrumbs(container, product) {
     const breadcrumbs = container.querySelector("#breadcrumbs");
     const crumbs = breadcrumbs.querySelectorAll('[data-page]');
-    // for (let crumb of crumbs){
-    //     crumb.dataset.page = 
-    // }
     breadcrumbs.textContent = `Browse > ${product.gender} > ${product.category} > ${product.name}`;
     breadcrumbs.setAttribute('data-page', 'browse');
-    // breadcrumbs.addEventListener("click", () => { useGoToPage(crumbs) });
     breadcrumbs.addEventListener("click", () => { goToPage('browse') });
 }
 
@@ -149,12 +145,18 @@ function makeProductCard(prodCardTemplate, parent, productList) {
     })
 }
 
+
+
+/* This function will add a product to the shopping cart list and increment the cart count */
+/* This is the only function which interacts with the shopping cart on this page */
 function addProductToCart(product, addToCart) {
     addToCart.addEventListener("click", () => {
-        let cart = document.querySelector('#cart-count')
+        let cart = document.querySelector('#cart-count');
+        // console.log(typeof(cart.dataset.cartcount), ": ",cart.dataset.cartcount, typeof(addToCart.dataset.quantity), ": ",addToCart.dataset.quantity)
         const cartCount = Number(cart.dataset.cartcount) + Number(addToCart.dataset.quantity);
         cart.textContent = cartCount;
         cart.setAttribute('data-cartcount', cartCount);
+        console.log(product)
         addToShoppingCart(new ShoppingCartProduct(product, addToCart.dataset.color, addToCart.dataset.size, addToCart.dataset.quantity));
     });
 }
