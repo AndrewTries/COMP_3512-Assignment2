@@ -65,6 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
             dialog.close();
         }
     })
+
+    document.querySelector('#toggleLighting').click();
     function checkIfFetched() {
         return localStorage.products !== null ? true : false;
     }

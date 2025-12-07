@@ -151,6 +151,15 @@ function makeProductCard(prodCardTemplate, parent, productList) {
 /* This is the only function which interacts with the shopping cart on this page */
 function addProductToCart(product, addToCart) {
     addToCart.addEventListener("click", () => {
+        const addToCartMessage = document.querySelector('#addToCartMessage')
+        addToCartMessage.classList.toggle('opacity-0');
+        addToCartMessage.classList.toggle('invisible');
+        addToCartMessage.textContent = `${product.name} (${addToCart.dataset.size}, ${product.color[0].name}) added to cart.`;
+        setTimeout(() => {
+            addToCartMessage.classList.toggle('opacity-0');
+            addToCartMessage.classList.toggle('invisible');
+        }, 4000);
+
         let cart = document.querySelector('#cart-count');
         // console.log(typeof(cart.dataset.cartcount), ": ",cart.dataset.cartcount, typeof(addToCart.dataset.quantity), ": ",addToCart.dataset.quantity)
         const cartCount = Number(cart.dataset.cartcount) + Number(addToCart.dataset.quantity);

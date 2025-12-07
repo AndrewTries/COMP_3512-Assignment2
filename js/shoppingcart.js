@@ -1,7 +1,6 @@
 import { goToPage, products } from "./index.js";
 import { makeProduct } from "./product.js";
 export { ShoppingCartProduct, writeCartPage, cartResults }
-// import { Interface } from "readline";
 
 // interface ShoppingCartProduct {
 //     groupID: String;
@@ -180,10 +179,6 @@ function setUpShoppingCartProducts(retrievedCart) {
     }
 }
 
-function addProductToLocalStorage() {
-
-}
-
 /* ----------------------------------------------------------------------------------------------- */
 
 /* Manages updating the summary form */
@@ -210,6 +205,15 @@ function cartResults() {
 
 /* Clears the shopping cart of all products */
 function clearCart() {
+    const checkOutMessage = document.querySelector('#checkOutMessage')
+    checkOutMessage.classList.toggle('opacity-0');
+    checkOutMessage.classList.toggle('invisible');
+    checkOutMessage.textContent = 'Thank you for your patronage!';
+    setTimeout(() => {
+        checkOutMessage.classList.toggle('opacity-0');
+        checkOutMessage.classList.toggle('invisible');
+    }, 4000);
+    
     document.querySelector('.shoppingcart-hide').classList.remove('hidden');
     document.querySelector('#shoppingcart-hide').classList.add('invisible');
     document.querySelector('#shoppingCartGrid').replaceChildren();

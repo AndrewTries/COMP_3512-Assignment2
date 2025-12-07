@@ -2,7 +2,8 @@ import { products } from './index.js';
 import { makeProductCard } from './product.js';
 export { getProducts, populateDepartements, sortOrder, resetFilter, setProducts };
 
-let productList = []
+let productList = [];
+let filterList = [];
 
 async function setProducts(products) {
     productList = products.sort((a, b) => a.name.localeCompare(b.name));
@@ -20,8 +21,6 @@ async function getProducts(productList) {
     makeProductCard(prodCardTemplate, productGrid, productList);
 }
 
-
-
 async function populateDepartements() {
     const selects = document.querySelectorAll('[data-select]');
     document.addEventListener('submit', e => {
@@ -29,11 +28,13 @@ async function populateDepartements() {
     });
     selects.forEach(sel => {
         const select = sel.dataset.select;
-        console.log(document.querySelector(`#${select}-list`).textContent)
-        document.querySelector(`#${select}-list`).addEventListener('click', () => {
+        const button = document.querySelector(`#${select}-list`);
+        button.addEventListener('click', () => {
             console.log("clicked")
             sel.classList.toggle('invisible')
         })
+
+
         let options;
         let uniqueOptions;
         if (select === 'sizes') {
@@ -47,6 +48,8 @@ async function populateDepartements() {
         if (select !== 'color') uniqueOptions = new Set(options);
         let selected = document.querySelector(`ul#${select}`);
 
+
+
         let count = {};
         options.forEach(o => count[o] = (count[o] || 0) + 1);
         // count = options.filter(c => c === cat).length;
@@ -58,15 +61,48 @@ async function populateDepartements() {
                 colorIcon.style.backgroundColor = `${obj.hex}`;
                 colorIcon.title = obj.name;
                 colorIcon.classList.add('h-4', 'rounded-sm', 'aspect-square', 'border-1', 'hover:cursor-pointer');
-                colorIcon.addEventListener("click", () => addToCart.setAttribute('data-select', `${obj.hex}`));
+                colorIcon.addEventListener("click", () => {
+                    colorIcon.classList.toggle('border-3')
+                    addToCart.setAttribute('data-select', `${obj.hex}`)
+                });
                 catColor.appendChild(colorIcon);
             }
         } else uniqueOptions.forEach(cat => {
             const opt = document.createElement('li');
             opt.value = cat;
-            opt.textContent = `${cat} (${count[cat]})`;
-            opt.classList.add('h-4', 'rounded-sm', 'aspect-square', 'gender-list', 'invisible', 'dark:bg-card', 'border-1');
-            opt.classList.add('flex', 'justify-between');
+            opt.title = cat;
+            opt.classList.add('flex', 'flex-grow', 'justify-between', 'items-center', 'gap-2', 'rounded-sm', 'bg-card', 'p-2', 'hover:bg-sky-500', 'border');
+
+            const checkbox = document.createElement('span');
+            checkbox.setAttribute('data-key', `${select}-${cat}`);
+            checkbox.setAttribute('data-filter-category', select);
+            checkbox.setAttribute('data-filter-value', cat);
+            checkbox.classList.add('flex', 'h-4', 'rounded-sm', 'aspect-square', 'justify-center', 'items-center', 'border', 'hover:cursor-pointer')
+            checkbox.addEventListener('click', (e) => {
+                e.stopPropagation();
+                checkbox.classList.toggle('bg-sky-700')
+                checkbox.textContent === 'x' ? checkbox.textContent = '' : checkbox.textContent = 'x';
+                let filterItem = { category: select, value: cat };
+                if (filterList.find(f => f === filterItem)) {
+                    filterList.splice(filterList.indexOf(cat), 1);
+                } else {
+                    filterList.push(filterItem);
+                }
+                handleSelectProductChange();
+            });
+
+            const textbox = document.createElement('span');
+            textbox.textContent = `${cat} (${count[cat]})`;
+
+            const onlyOpt = document.querySelector(`#only${select}`)
+            document.addEventListener('click', (e) => {
+                if (!onlyOpt.contains(e.target) && e.target !== button) {
+                    onlyOpt.classList.add('invisible');
+                }
+            })
+
+            opt.append(textbox, checkbox)
+
             selected.appendChild(opt);
         })
         sel.addEventListener('change', (e) => { handleSelectProductChange(e, select) });
@@ -78,9 +114,51 @@ async function populateDepartements() {
  * @param {*} e 
  * @param {*} products 
  */
-function handleSelectProductChange(e, select) {
-    const selectID = e.target.value;
-    const filtered = products.filter(p => p[select] == selectID)
+function handleSelectProductChange() {
+    const filterElements = document.querySelector('#filterList');
+    filterList.forEach(f => {
+        const filterEl = document.createElement('div');
+        const filterElement = document.querySelector(`[data-key="${f.category}-${f.value}]`)
+        filterEl.textContent = f.value;
+        filterEl.classList.add('flex', 'items-center', 'text-center', 'justify-center', 'h-7', 'pl-1', 'border', 'bg-card', 'rounded-sm');
+        const removeEl = document.createElement('span');
+        removeEl.textContent = 'x';
+        removeEl.classList.add('flex', 'text-center', 'ml-2', 'items-center', 'size-4', 'm-1', 'justify-center', 'border', 'bg-button-bg', 'text-button-primary', 'rounded-sm', 'hover:cursor-pointer');
+        removeEl.addEventListener('click', () => {
+            console.log('filterSplice', filterList.indexOf(f))
+            filterList.splice(filterList.indexOf(f), 1);
+            console.log("filterList", filterList);
+            filterElements.removeChild(filterEl);
+            console.log('filteElemen', filterElement)
+            // filterElement.classList.remove('blue-sky-700');
+            // filterElement.textContent = '';
+            handleSelectProductChange();
+        })
+        filterEl.appendChild(removeEl);
+        filterElements.appendChild(filterEl);
+    })
+    // filterList.forEach(f => {
+    //     const selectID = f;
+    // })
+
+    let filter = '';
+    filterList.forEach(f => {
+        if (filter.length > 0) filter += ' && ';
+        filter += f.value;
+    });
+    console.log(filter.trim());
+    let filtered = [];
+
+        products.filter(p => {
+            filterList.forEach(f => {
+                if(p[f.category] === f.value) {
+                    filtered.push(p);
+                    console.log("Passed: ", p)
+                }
+            p[f.category] === f.value
+        })
+    })
+    console.log("filtered ", filtered);
     productList = filtered;
     getProducts(filtered);
 }

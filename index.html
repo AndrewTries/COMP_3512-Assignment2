@@ -9,7 +9,7 @@
 </head>
 
 
-<body>
+<body class="relative">
     <div class="flex min-h-screen w-full flex-col text-text bg-background">
         <header class="sticky top-0 z-1">
             <div
@@ -17,7 +17,8 @@
                 <a href="index.html" data-page="home"><img src="images/hollow_logo.png"
                         class="rounded-full w-10 h-10"></a>
                 <h1 class="text-xl font-bold" data-page="home"><a href="index.html">Portfolio Project</a></h1>
-                <button onclick="document.documentElement.classList.toggle('dark')" class="">Switch Color</button>
+                <button id="toggleLighting" onclick="document.documentElement.classList.toggle('dark')" class="">Switch
+                    Color</button>
                 <nav class="flex gap-5 justify-end">
                     <a data-page="home" href="#">Home</a>
                     <a data-page="browse" href="#">Browse</a>
@@ -34,7 +35,7 @@
                 </div>
             </div>
         </header>
-        <main class="flex-1">
+        <main class="flex-1 relative">
             <!-- View 1 Home -->
             <!-- View 2 Browse -->
             <!-- View 3 Single Product -->
@@ -104,45 +105,37 @@
                     <section id="filter" class="flex flex-col sticky gap-10 font-semibold top-[60px] self-start">
                         <h2 class="text-2xl">Departments</h2>
                         <div>
-                            <!-- <select data-select="gender" name="gender" id="gender" type="checkbox"
-                            class="text-text appearance-none">
-                                <option value="">Gender</option>
-                            </select> -->
-                            <button id="gender-list">Gender</button>
-                            <ul data-select="gender" name="gender" id="gender" text-text
-                                class="invisible hover:cursor-pointer">
-                                <li value="">Gender</li>
-                            </ul>
+                            <button id="gender-list" class="text-lg mb-2">Gender     ⮟</button>
+                            <div id="onlygender" data-select="gender" class="invisible relative">
+                                <ul name="gender" id="gender"
+                                    class="hover:cursor-pointer absolute text-text ml-4 custom-scrollbar overflow-y-auto h-100">
+                                </ul>
+                            </div>
                         </div>
                         <div>
-                            <!-- <select data-select="category" name="category" id="category" type="checkbox">
-                                <option data-category="" value="">Category</option>
-                            </select> -->
-                            <span id="category-list">Category</span>
-                            <ul data-select="category" name="category" id="category" text-text>
-                                <li value="">Category</li>
-                                <li value="1">Hidden</li>
-                            </ul>
+                            <button id="category-list" class="text-lg mb-2">Category     ⮟</button>
+                            <div id="onlycategory" data-select="category" class="invisible relative">
+                                <ul name="category" id="category"
+                                    class="hover:cursor-pointer absolute text-text ml-4 custom-scrollbar overflow-y-auto h-100">
+                                </ul>
+                            </div>
                         </div>
                         <div>
-                            <!-- <select data-select="sizes" name="sizes" id="sizes" type="checkbox">
-                                <option value="">Size</option>
-                            </select> -->
-                            <span id="sizes-list">Size</span>
-                            <ul data-select="sizes" name="sizes" id="sizes" type="checkbox" text-text>
-                                <li value="">Size</li>
-                            </ul>
+                            <button id="sizes-list" class="text-lg mb-2">Size     ⮟</button>
+                            <div id="onlysizes" data-select="sizes" class="invisible relative">
+                                <ul name="sizes" id="sizes"
+                                    class="hover:cursor-pointer absolute text-text ml-4 custom-scrollbar overflow-y-auto h-100">
+                                </ul>
+                            </div>
                         </div>
                         <div>
-                            <h3>Color</h3>
-                            <span id="color-list">Color</span>
+                            <button id="color-list" class="text-lg mb-2">Color     ⮟
+                                
+                            </button>
                             <div class="grid grid-cols-8 gap-2" data-select="color" name="color" id="catColor">
 
                             </div>
                         </div>
-                        <!-- <select data-select="color" name="color" id="color" multiple>
-                            <option value="">Color</option>
-                        </select> -->
                     </section>
                     <section id="results">
                         <h2 class="text-2xl text-center font-semibold">Search Results</h2>
@@ -157,7 +150,10 @@
                                 class="justify-end snap-end bg-button-bg text-button-primary border border-button-primary rounded-md px-2"
                                 id="resetFilters">Reset Filters</button>
                         </div>
-                        <p>Applied Filters:</p>
+                        <div class="flex-col">
+                            <p class="text-md mb-2">Applied Filters:</p>
+                            <div id="filterList" class="flex gap-2"></div>
+                        </div>
                         <div id="productsGrid" class="products-grid grid gap-5 m-5 
                         md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
                         </div>
@@ -233,7 +229,7 @@
                                             <div class="flex gap-4">
                                                 <label for="quantity"
                                                     class="product-quantity text-md font-bold">Quantity</label>
-                                                <input type="number" id="quantity" name="quanity" placeholder="1"
+                                                <input type="number" id="quantity" name="quantity" placeholder="1"
                                                     class="border-1">
                                             </div>
 
@@ -308,8 +304,9 @@
                         <p id="leave-cart" class="text-link underline hover:cursor-pointer">Start Shopping</p>
                     </div>
                     <div id="shoppingcart-hide" class="shoppingcart-hide flex flex-col h-[80vh] p-5 pb-5 invisible">
-                        <div class="flex-1 flex-col overflow-y-auto">
-                            <div class="grid grid-cols-[35%_13%_13%_13%_13%_13%] sticky top-0 bg-background font-semibold text-center mb-2">
+                        <div class="flex-1 flex-col custom-scrollbar overflow-y-auto">
+                            <div
+                                class="grid grid-cols-[35%_13%_13%_13%_13%_13%] sticky top-0 bg-background font-semibold text-center mb-2">
                                 <div>Items</div>
                                 <div>Color</div>
                                 <div>Size</div>
@@ -361,9 +358,12 @@
                                     <div class="flex w-full aspect-[3/2] font-bold text-button-
                                     primary h-5 items-center justify-center border-1 hover:cursor-pointer">-</div>
                                 </div>
-                                <div data-page="singleproduct" class="flex items-center hover:cursor-pointer h-[10vh] aspect-square"><img src="" class="product-image">
+                                <div data-page="singleproduct"
+                                    class="flex items-center hover:cursor-pointer h-[10vh] aspect-square"><img src=""
+                                        class="product-image">
                                 </div>
-                                <div data-page="singleproduct" class="flex items-center hover:cursor-pointer product-title"></div>
+                                <div data-page="singleproduct"
+                                    class="flex items-center hover:cursor-pointer product-title"></div>
                             </div>
                             <div class="flex product-color h-6 aspect-square border-1"></div>
                             <div class="flex product-size gap-2 font-semibold text-text"></div>
@@ -398,6 +398,12 @@
                     </div>
                 </div>
             </dialog>
+            <div id="addToCartMessage"
+                class="invisible absolute top-5 left-1/2 -translate-x-1/2 p-3 transition-opacity duration-400 ease-in-out opacity-0 rounded-md bg-card">
+            </div>
+            <div id="checkOutMessage"
+                class="invisible absolute top-5 left-1/2 -translate-x-1/2 p-3 transition-opacity duration-400 ease-in-out opacity-0 rounded-md bg-card">
+            </div>
         </main>
         <footer>
             <div class="flex items-center justify-center">
@@ -414,6 +420,7 @@
             </div>
         </footer>
     </div>
+
 </body>
 
 </html>
