@@ -55,6 +55,7 @@ async function populateDepartements() {
         // count = options.filter(c => c === cat).length;
         //https://codepen.io/nmcinteer/pen/owZoqe
         const catColor = document.querySelector("#catColor");
+
         if (select === 'color') {
             for (let obj of uniqueOptions.values()) {
                 const colorIcon = document.createElement('span');
@@ -69,25 +70,28 @@ async function populateDepartements() {
             }
         } else uniqueOptions.forEach(cat => {
             const opt = document.createElement('li');
-            opt.value = cat;
-            opt.title = cat;
+            [opt.value, opt.title] = cat;
             opt.classList.add('flex', 'flex-grow', 'justify-between', 'items-center', 'gap-2', 'rounded-sm', 'bg-card', 'p-2', 'hover:bg-sky-500', 'border');
 
+            /* Make checkbox */
             const checkbox = document.createElement('span');
             checkbox.setAttribute('data-key', `${select}-${cat}`);
             checkbox.setAttribute('data-filter-category', select);
             checkbox.setAttribute('data-filter-value', cat);
-            checkbox.classList.add('flex', 'h-4', 'rounded-sm', 'aspect-square', 'justify-center', 'items-center', 'border', 'hover:cursor-pointer')
+            checkbox.classList.add('flex', 'h-4', 'rounded-sm', 'aspect-square', 'justify-center', 'items-center', 'border', 'hover:cursor-pointer');
+
             checkbox.addEventListener('click', (e) => {
                 e.stopPropagation();
                 checkbox.classList.toggle('bg-sky-700')
                 checkbox.textContent === 'x' ? checkbox.textContent = '' : checkbox.textContent = 'x';
                 let filterItem = { category: select, value: cat };
-                if (filterList.find(f => f === filterItem)) {
+
+                /* If filter item is found in filterList remove it */
+                if (filterList.find(f => f.category === filterItem.category && f.value === filterItem.value)) {
                     filterList.splice(filterList.indexOf(cat), 1);
-                } else {
-                    filterList.push(filterItem);
-                }
+                    getProducts(productList);
+                } else filterList.push(filterItem);
+                
                 handleSelectProductChange();
             });
 
@@ -96,9 +100,8 @@ async function populateDepartements() {
 
             const onlyOpt = document.querySelector(`#only${select}`)
             document.addEventListener('click', (e) => {
-                if (!onlyOpt.contains(e.target) && e.target !== button) {
+                if (!onlyOpt.contains(e.target) && e.target !== button) 
                     onlyOpt.classList.add('invisible');
-                }
             })
 
             opt.append(textbox, checkbox)
@@ -115,72 +118,85 @@ async function populateDepartements() {
  * @param {*} products 
  */
 function handleSelectProductChange() {
+    writeFilterElements();
+
+    let filtered = [];
+
+    products.filter(p => {
+        filterList.forEach(f => {
+            if(f.category == 'sizes') {
+                const found = p[f.category].find(r => r === f.value);
+                if (found) filtered.push(p);
+            } else if (f.category == 'color') {
+                const found = p[f.category].find(r => r.hex === f.value);
+                if (found) filtered.push(p);
+            }
+            else if (p[f.category] === f.value) {
+                filtered.push(p);
+                // console.log("Passed: ", p)
+            }
+            p[f.category] === f.value;
+        })
+    })
+    
+    filtered.length === 0 ? productList = products : productList = filtered;
+    console.log("fileredList", productList)
+    getProducts(productList);
+}
+
+function writeFilterElements() {
+    document.querySelector('#filterList').replaceChildren();
     const filterElements = document.querySelector('#filterList');
     filterList.forEach(f => {
         const filterEl = document.createElement('div');
-        const filterElement = document.querySelector(`[data-key="${f.category}-${f.value}]`)
+        filterEl.setAttribute('data-key', `${f.category}-${f.value}`);;
         filterEl.textContent = f.value;
         filterEl.classList.add('flex', 'items-center', 'text-center', 'justify-center', 'h-7', 'pl-1', 'border', 'bg-card', 'rounded-sm');
         const removeEl = document.createElement('span');
         removeEl.textContent = 'x';
         removeEl.classList.add('flex', 'text-center', 'ml-2', 'items-center', 'size-4', 'm-1', 'justify-center', 'border', 'bg-button-bg', 'text-button-primary', 'rounded-sm', 'hover:cursor-pointer');
         removeEl.addEventListener('click', () => {
-            console.log('filterSplice', filterList.indexOf(f))
+            const selectedFilter = document.querySelector(`[data-filter-category="${f.category}"][data-filter-value="${f.value}"]`);
+
+            removeFilterSelect(selectedFilter);
+
             filterList.splice(filterList.indexOf(f), 1);
-            console.log("filterList", filterList);
             filterElements.removeChild(filterEl);
-            console.log('filteElemen', filterElement)
-            // filterElement.classList.remove('blue-sky-700');
-            // filterElement.textContent = '';
             handleSelectProductChange();
         })
         filterEl.appendChild(removeEl);
         filterElements.appendChild(filterEl);
     })
-    // filterList.forEach(f => {
-    //     const selectID = f;
-    // })
-
-    let filter = '';
-    filterList.forEach(f => {
-        if (filter.length > 0) filter += ' && ';
-        filter += f.value;
-    });
-    console.log(filter.trim());
-    let filtered = [];
-
-        products.filter(p => {
-            filterList.forEach(f => {
-                if(p[f.category] === f.value) {
-                    filtered.push(p);
-                    console.log("Passed: ", p)
-                }
-            p[f.category] === f.value
-        })
-    })
-    console.log("filtered ", filtered);
-    productList = filtered;
-    getProducts(filtered);
 }
 
 function sortOrder() {
     const sortSelect = document.querySelector("#sortOrder")
     sortSelect.addEventListener('change', e => {
         const sortValue = e.target.value;
-        // console.log(sortValue)
         let sortedProducts;
         sortValue == 'price'
-            ? sortedProducts = products.sort((a, b) => b[sortValue] - a[sortValue])
-            : sortedProducts = products.sort((a, b) => a[sortValue].localeCompare(b[sortValue]));
-        // console.log(sortedProducts)
+            ? sortedProducts = productList.sort((a, b) => b[sortValue] - a[sortValue])
+            : sortedProducts = productList.sort((a, b) => a[sortValue].localeCompare(b[sortValue]));
         getProducts(sortedProducts);
     });
 }
 
 function resetFilter() {
-    const resetFilter = document.querySelector("#resetFilters")
+    const resetFilter = document.querySelector("#resetFilters");
     resetFilter.addEventListener('click', e => {
+        const filter = document.querySelectorAll('[data-filter-category][data-filter-value]');
+        filter.forEach(f => {
+            removeFilterSelect(f);
+        });
+        document.querySelector('#filterList').replaceChildren();
+        filterList.length = 0;
         productList = products;
         getProducts(productList);
     })
+}
+
+function removeFilterSelect(filterSelect) {
+    if (filterSelect.dataset.category === 'color')
+    filterSelect.classList.remove('bg-sky-700');
+    filterSelect.textContent = '';
 }
