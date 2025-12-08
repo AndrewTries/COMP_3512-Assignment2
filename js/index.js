@@ -33,7 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let cached = localStorage.getItem('products');
         if (cached) return JSON.parse(cached);
         console.log("fetching");
-        const response = await fetch('data-minifed.json')
+        console.log('index.js URL:', import.meta.url);
+        const absfilePath = import.meta.url;
+        let filePath = absfilePath.replace(/js\/index.js$/, "");
+        const response = await fetch(`${filePath}data-minifed.json`)
         const data = await response.json();
         data.sort((a, b) => a.name.localeCompare(b.name));
         localStorage.setItem('products', JSON.stringify(data));
