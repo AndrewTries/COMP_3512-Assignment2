@@ -2,9 +2,11 @@ import { products, useGoToPage, goToPage } from './index.js';
 import { addToShoppingCart, ShoppingCartProduct } from './shoppingcart.js';
 export { makeProduct, makeProductCard };
 
+/* Main function managing product page creation */
 function makeProduct(product) {
     const prodCardTemplate = document.querySelector('#singleProductTemplate');
     const productPage = document.querySelector('#productPage');
+    /* Clears product page when initialized */
     productPage.replaceChildren();
     const productClone = prodCardTemplate.content.cloneNode(true);
 
@@ -24,9 +26,7 @@ function makeProduct(product) {
     productClone.querySelector("#relatedCategory").textContent += ` ${product.category}`;
 
     attachRelated(product, productClone);
-    const productForm = productClone.querySelector(".product-form");
     const addToCart = productClone.querySelector(".add-to-cart-btn");
-    const cartPage = productForm.querySelectorAll('[data-page]');
 
     /* Default Size*/
     addToCart.setAttribute('data-size', product.sizes[0]);
@@ -80,40 +80,34 @@ function breadcrumbs(container, product) {
     breadcrumbs.addEventListener("click", () => { goToPage('browse') });
 }
 
+/* Algorithm determining which assosiated products to show */
+/* generally 2 products based on price and 2 based on category */
 function attachRelated(product, parentTemplate) {
     const filteredCategory = products.filter(p =>
         p.category === product.category
         && p.name !== product.name);
-    const randomCatEnd = Math.floor(Math.random() * filteredCategory.length);
-    const randomCatStart = randomCatEnd > 2 ? randomCatEnd - 2 : 0
-    const relatedCategory = filteredCategory.slice(randomCatStart, randomCatEnd);
-    // relatedCategory.forEach(p => console.log(p));
 
+    /* Randomly sorts array before choosing the products */
+    filteredCategory.sort(function () { return 0.5 - Math.random() });
+    const relatedCategory = filteredCategory.slice(0, 2);
+
+    /* Products featured by price are within 10% of the base product price */
     let filteredPrice = products.filter(p =>
     ((p.price >= product.price - (product.price * 0.1)
         && p.price <= product.price + (product.price * 0.1))
         && (p.name !== product.name)));
     filteredPrice = filteredPrice.filter(p => !relatedCategory.includes(p));
-    // filteredPrice.forEach(p => console.log("Price: ", p.price, p.name));
+    filteredPrice.sort(function () { return 0.5 - Math.random() });
+    const relatedPrice = filteredPrice.slice(0, 2);
 
-    let randomPriceStart, randomPriceEnd;
-    while (randomPriceStart === randomPriceEnd && randomPriceStart > (randomPriceEnd - 1)) {
-        randomPriceStart = Math.floor(Math.random() * filteredPrice.length);
-        randomPriceEnd = Math.floor(Math.random() * filteredPrice.length);
-    }
-    const relatedPrice = filteredPrice.slice(randomPriceStart, randomPriceEnd);
-
-    // relatedPrice.forEach(p => console.log(p.price, p.name));
-
-    // const relatedProducts = [...relatedCategory, ...relatedPrice];
     const prodCardTemplate = document.querySelector('#relatedTemplate');
     const relatedCategoryList = parentTemplate.querySelector('#relatedCategoryProducts');
     const relatedPriceList = parentTemplate.querySelector('#relatedPriceProducts');
-    makeProductCard(prodCardTemplate, relatedCategoryList, relatedCategory.slice(0, 2));
-    makeProductCard(prodCardTemplate, relatedPriceList, relatedPrice.slice(0, 2));
+    makeProductCard(prodCardTemplate, relatedCategoryList, relatedCategory);
+    makeProductCard(prodCardTemplate, relatedPriceList, relatedPrice);
 }
 
-
+/* Function creating each product card that is not the product page */
 function makeProductCard(prodCardTemplate, parent, productList) {
     productList.forEach(p => {
         const productClone = prodCardTemplate.content.cloneNode(true);
@@ -161,11 +155,10 @@ function addProductToCart(product, addToCart) {
         }, 4000);
 
         let cart = document.querySelector('#cart-count');
-        // console.log(typeof(cart.dataset.cartcount), ": ",cart.dataset.cartcount, typeof(addToCart.dataset.quantity), ": ",addToCart.dataset.quantity)
         const cartCount = Number(cart.dataset.cartcount) + Number(addToCart.dataset.quantity);
         cart.textContent = cartCount;
         cart.setAttribute('data-cartcount', cartCount);
-        console.log(product)
+        (product)
         addToShoppingCart(new ShoppingCartProduct(product, addToCart.dataset.color, addToCart.dataset.size, addToCart.dataset.quantity));
     });
 }

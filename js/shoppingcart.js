@@ -1,20 +1,9 @@
 import { goToPage, products } from "./index.js";
 import { makeProduct } from "./product.js";
-export { ShoppingCartProduct, writeCartPage, cartResults }
-
-// interface ShoppingCartProduct {
-//     groupID: String;
-//     id: String;
-//     name: String;
-//     image: String;
-//     color: String;
-//     size: String;
-//     price: Number;
-//     quantity: Number;
-//     subtotal: Number;
-// }
+export { ShoppingCartProduct, writeCartPage, cartResults, addToShoppingCart }
 
 const shoppingCartProducts = [];
+/* Helper class for setting up shopping cart product types */
 class ShoppingCartProduct {
     constructor(product, color, size, quantity) {
         this.groupID = product.id + size + color;
@@ -31,7 +20,7 @@ class ShoppingCartProduct {
     }
 }
 
-export { addToShoppingCart }
+/* Main function called when adding a product to the shopping cart */
 function addToShoppingCart(cartProduct) {
     if (productInCart(cartProduct)) return;
 
@@ -93,6 +82,7 @@ function addToShoppingCart(cartProduct) {
     cartResults();
 }
 
+/* Sets quantity and subtotal of cart item */
 function writecartItem(cartProduct) {
     if (cartProduct.quantity === 0) return removeProduct(cartProduct);
     const cart_id = document.querySelector(`[data-cart-group="${cartProduct.groupID}"]`);
@@ -101,6 +91,7 @@ function writecartItem(cartProduct) {
     cartResults();
 }
 
+/* If the product is already in the cart, increments count, updates local storage and returns true */
 function productInCart(cartProduct) {
     const prodInCart = shoppingCartProducts.find(c => c.groupID === cartProduct.groupID);
     if (prodInCart) {
@@ -168,6 +159,7 @@ function writeCartPage() {
     cartResults();
 }
 
+/* Rebuilding the products in the shopping cart as ShoppingCartProduct after retrieving them from local storage */
 function setUpShoppingCartProducts(retrievedCart) {
     if (retrievedCart) {
         retrievedCart.forEach(sc => {

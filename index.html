@@ -14,9 +14,9 @@
         <header class="sticky top-0 z-1">
             <div
                 class="grid grid-cols-[5%_15%_10%_60%_10%] items-center justify-between bg-nav px-6 py-2 text-nav-text dark:bg-slate-900">
-                <a href="index.html" data-page="home"><img src="images/hollow_logo.png"
+                <a href="#" data-page="home"><img src="images/hollow_logo.png"
                         class="rounded-full w-10 h-10"></a>
-                <h1 class="text-xl font-bold" data-page="home"><a href="index.html">Portfolio Project</a></h1>
+                <h1 class="text-xl font-bold" data-page="home"><a href="#">Portfolio Project</a></h1>
                 <button id="toggleLighting" onclick="document.documentElement.classList.toggle('dark')" class="">Switch
                     Color</button>
                 <nav class="flex gap-5 justify-end">
@@ -58,10 +58,6 @@
                                     BROWSE PRODUCTS
                                 </button>
                             </div>
-                            <!-- <button
-                                class=" text-xl rounded-4xl font-semibold shadow-lg border-white border-2 py-4 px-6 bg-sky-100">
-                                Browse Products<p class="text-xs">Click here to view our full product selection.</p>
-                            </button> -->
                         </div>
                     </figure>
                     <div class="text-center">
@@ -88,7 +84,7 @@
                                         <div class="product-price font-semibold font-mono">$Price</div>
                                     </div>
                                     <div class="flex items-center justify-center">
-                                        <button data-page="shoppingcart" title="Add item to shopping cart"
+                                        <button title="Add item to shopping cart"
                                             class="card-button add-to-cart-btn">
                                             +
                                         </button>
@@ -103,6 +99,7 @@
             <div>
                 <article id="browse" class="grid grid-cols-[30%_70%] 2xl:grid-cols-[15%_85%] gap-6 p-6">
                     <section id="filter" class="flex flex-col sticky gap-10 font-semibold top-[60px] self-start">
+                        
                         <h2 class="text-2xl">Departments</h2>
                         <div>
                             <button id="gender-list" class="text-lg mb-2">Gender     ⮟</button>
@@ -132,7 +129,7 @@
                             <button id="color-list" class="text-lg mb-2">Color     ⮟
                                 
                             </button>
-                            <div class="grid grid-cols-8 gap-2" data-select="color" name="color" id="catColor">
+                            <div class="grid grid-cols-8 gap-2 invisible" data-select="color" name="color" id="catColor">
 
                             </div>
                         </div>
@@ -177,7 +174,7 @@
                                         <div class="product-price font-semibold font-mono">$Price</div>
                                     </div>
                                     <div class="flex items-center justify-center">
-                                        <button data-page="shoppingcart" title="Add item to shopping cart"
+                                        <button title="Add item to shopping cart"
                                             class="card-button add-to-cart-btn">
                                             +
                                         </button>
@@ -286,7 +283,7 @@
                                     <div class="product-price font-semibold font-mono ">$Price</div>
                                 </div>
                                 <div class="flex items-center justify-center">
-                                    <button data-page="shoppingcart" title="Add item to shopping cart"
+                                    <button title="Add item to shopping cart"
                                         class="card-button add-to-cart-btn">
                                         +
                                     </button>
@@ -399,10 +396,10 @@
                 </div>
             </dialog>
             <div id="addToCartMessage"
-                class="invisible absolute top-5 left-1/2 -translate-x-1/2 p-3 transition-opacity duration-400 ease-in-out opacity-0 rounded-md bg-card">
+                class="invisible fixed top-15 left-1/2 -translate-x-1/2 p-3 transition-opacity duration-400 ease-in-out opacity-0 rounded-md bg-card">
             </div>
             <div id="checkOutMessage"
-                class="invisible absolute top-5 left-1/2 -translate-x-1/2 p-3 transition-opacity duration-400 ease-in-out opacity-0 rounded-md bg-card">
+                class="invisible fixed top-15 left-1/2 -translate-x-1/2 p-3 transition-opacity duration-400 ease-in-out opacity-0 rounded-md bg-card">
             </div>
         </main>
         <footer>
